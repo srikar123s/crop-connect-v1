@@ -6,7 +6,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 const ConfirmationModal = ({ visible, onClose }) => {
     const [orderNumber, setOrderNumber] = useState('');
     const navigate = useNavigate();
-    const { clearCart } = useContext(CartContext); // Get clearCart function from CartContext
+    const { cartItems, clearCart } = useContext(CartContext); // Get clearCart function from CartContext
 
     // Function to generate a random order number
     const generateOrderNumber = () => {
@@ -71,7 +71,7 @@ const ConfirmationModal = ({ visible, onClose }) => {
                         <div className="mt-4">
                             <button 
                                 className="btn btn-success me-2" 
-                                onClick={handleClose}
+                                onClick={handleClose(orderNumber)}
                             >
                                 Continue Shopping
                             </button>

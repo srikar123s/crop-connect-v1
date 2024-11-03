@@ -6,10 +6,11 @@ import { faTrash, faShoppingBag, faShoppingCart } from '@fortawesome/free-solid-
 import images from '../../Images'
 import './CartModal.css';
 import { CartContext } from '../../context/CartContext'
+import { AuthContext } from '../../context/AuthContext';
 
 const CartModal = ({ visible, onClose }) => {
     const navigate =  useNavigate();
-
+    const {authenticated} = useContext(AuthContext)
     const { cartItems, changeQuantity, removeItem, clearCart } = useContext(CartContext);
 
     const totalAmount = cartItems.reduce((total, item) => {
@@ -18,7 +19,10 @@ const CartModal = ({ visible, onClose }) => {
     }, 0);
 
     const handleCheckout =  () => {
-        if(cartItems.length>0){
+        if(!authenticated){
+            navigate('/login');
+        }
+        else if(cartItems.length>0){
             navigate('/check');
         }
         else{
