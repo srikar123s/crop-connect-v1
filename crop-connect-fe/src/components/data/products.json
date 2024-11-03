@@ -1,0 +1,332 @@
+[
+    {
+        "id": 1,
+        "image": "corn",
+        "alt": "Corn Seeds",
+        "name": "Corn Seeds",
+        "description": "High-quality corn seeds for maximum yield.",
+        "price": "₹150 per kg",
+        "category": "Seeds"
+    },
+    {
+        "id": 2,
+        "image": "wheat",
+        "alt": "Wheat Seeds",
+        "name": "Wheat Seeds",
+        "description": "Premium seeds for high crop production.",
+        "price": "₹120 per kg",
+        "category": "Seeds"
+    },
+    {
+        "id": 3,
+        "image": "rice",
+        "alt": "Rice Seeds",
+        "name": "Rice Seeds",
+        "description": "Quality seeds for better grain yield.",
+        "price": "₹140 per kg",
+        "category": "Seeds"
+    },
+    {
+        "id": 4,
+        "image": "cap",
+        "alt": "Bell Pepper Seeds",
+        "name": "Bell Pepper Seeds",
+        "description": "High-quality seeds for sweet and crunchy bell peppers in various colors.",
+        "price": "₹160 per kg",
+        "category": "Seeds",
+        "tag" : "best"
+    },
+    {
+        "id": 5,
+        "image": "barley",
+        "alt": "Barley Seeds",
+        "name": "Barley Seeds",
+        "description": "High-yield barley seeds for brewing and livestock.",
+        "price": "₹160 per kg",
+        "category": "Seeds"
+    },
+    {
+        "id": 6,
+        "image": "millet",
+        "alt": "Millet Seeds",
+        "name": "Millet Seeds",
+        "description": "Nutrient-rich seeds for a drought-resistant crop.",
+        "price": "₹100 per kg",
+        "category": "Seeds"
+    },
+    {
+        "id": 7,
+        "image": "cumber",
+        "alt": "Cucumber Seeds",
+        "name": "Cucumber Seeds",
+        "description": "High-quality seeds for refreshing cucumbers.",
+        "price": "₹120 per kg",
+        "category": "Seeds"
+    },
+    {
+        "id": 8,
+        "image": "tom",
+        "alt": "Tomato Seeds",
+        "name": "Tomato Seeds",
+        "description": "High-yield seeds for juicy and flavorful tomatoes.",
+        "price": "₹150 per kg",
+        "category": "Seeds"
+    },
+    {
+        "id": 9,
+        "image": "bean",
+        "alt": "Bean Seeds",
+        "name": "Bean Seeds",
+        "description": "Nutritious seeds for various dishes and crop rotation.",
+        "price": "₹120 per kg",
+        "category": "Seeds"
+    },
+    {
+        "id": 10,
+        "image": "sun",
+        "alt": "Sunflower Seeds",
+        "name": "Sunflower Seeds",
+        "description": "Premium seeds for vibrant sunflowers with high oil content.",
+        "price": "₹200 per kg",
+        "category": "Seeds",
+        "tag" : "best"
+    },
+    {
+        "id": 11,
+        "image": "brin",
+        "alt": "Brinjal Seeds",
+        "name": "Brinjal Seeds",
+        "description": "High-quality seeds for growing healthy and flavorful brinjals.",
+        "price": "₹150 per kg",
+        "category": "Seeds",
+        "tag" : "best"
+    },
+    {
+        "id": 12,
+        "image": "cotton",
+        "alt": "Cotton Seeds",
+        "name": "Cotton Seeds",
+        "description": "Seeds for high-quality cotton production.",
+        "price": "₹250 per kg",
+        "category": "Seeds"
+    },
+    {
+        "id": 13,
+        "image": "npk",
+        "alt": "NPK Fertilizer",
+        "name": "NPK 20-20-20 Fertilizer",
+        "description": "Balanced nutrients for better crop yields.",
+        "price": "₹6499 per bag (50 kg)",
+        "category": "Fertilizers"
+    },
+    {
+        "id": 14,
+        "image": "potash",
+        "alt": "Potash Fertilizer",
+        "name": "Potash Fertilizer",
+        "description": "Essential potassium fertilizer for crop growth.",
+        "price": "₹299 per kg",
+        "category": "Fertilizers"
+    },
+    {
+        "id": 15,
+        "image": "cal",
+        "alt": "Calcium Nitrate",
+        "name": "Calcium Nitrate Fertilizer",
+        "description": "Boosts plant development with nitrogen and calcium.",
+        "price": "₹249 per kg",
+        "category": "Fertilizers"
+    },
+    {
+        "id": 16,
+        "image": "ver",
+        "alt": "Insecticide",
+        "name": "Verticoz-P Bio Insecticide",
+        "description": "High-efficiency insecticide to protect crops from harmful pests.",
+        "price": "₹699 per liter",
+        "category": "Fertilizers"
+    },
+    {
+        "id": 17,
+        "image": "Bisbac",
+        "alt": "Herbicide",
+        "name": "Bispyribac Sodium 10%",
+        "description": "Controls weeds and promotes healthy crop growth.",
+        "price": "₹449 per liter",
+        "category": "Fertilizers",
+        "tag" : "best"
+    },
+    {
+        "id": 18,
+        "image": "ant",
+        "alt": "Fungicide",
+        "name": "Antracol Propineb 70% WP",
+        "description": "Protects crops from fungal diseases and increases yields.",
+        "price": "₹999 per kg",
+        "category": "Fertilizers"
+    },
+    {
+        "id": 19,
+        "image": "vermicompost",
+        "alt": "Organic Fertilizer",
+        "name": "Vermicompost",
+        "description": "Eco-friendly fertilizer to boost plant growth naturally.",
+        "price": "₹299 per bag",
+        "category": "Fertilizers",
+        "tag" : "best"
+    },
+    {
+        "id": 20,
+        "image": "dap",
+        "alt": "DAP Fertilizer",
+        "name": "Diammonium Phosphate (DAP) Fertilizer",
+        "description": "High-performance fertilizer providing essential nitrogen and phosphorus for optimal plant growth.",
+        "price": "₹1199 per bag (50 kg)",
+        "category": "Fertilizers"
+    },
+    {
+        "id": 21,
+        "image": "weed",
+        "alt": "Glyphosate",
+        "name": "Glyphosate Weed Killer",
+        "description": "Highly effective herbicide for broad weed control.",
+        "price": "₹399 per liter",
+        "category": "Fertilizers"
+    },
+    {
+        "id": 22,
+        "image": "org",
+        "alt": "Organic Compost",
+        "name": "Organic Manure",
+        "description": "Rich compost for improved soil fertility and health.",
+        "price": "₹799 per bag (40 kg)",
+        "category": "Fertilizers"
+    },
+    {
+        "id": 23,
+        "image": "urea",
+        "alt": "Urea Fertilizer",
+        "name": "Urea Fertilizer",
+        "description": "Provides essential nitrogen for healthy plant growth.",
+        "price": "₹749 per bag (50 kg)",
+        "category": "Fertilizers",
+        "tag" : "best"
+    },
+    {
+        "id": 24,
+        "image": "chl",
+        "alt": "Chlorpyrifos Insecticide",
+        "name": "Chlorpyrifos Insecticide",
+        "description": "Effective control against soil and foliage pests.",
+        "price": "₹1399 per liter",
+        "category": "Fertilizers"
+    },
+    {
+        "id": 25,
+        "image": "mol",
+        "name": "Moldboard Plow",
+        "description": "Sturdy moldboard plow for turning over the soil before sowing.",
+        "price": "₹22499",
+        "category": "Tools"
+    },
+    {
+        "id": 26,
+        "image": "disck",
+        "name": "Disc Harrow",
+        "description": "Heavy-duty disc harrow for soil cultivation and land preparation.",
+        "price": "₹18999",
+        "category": "Tools"
+    },
+    {
+        "id": 27,
+        "image": "hand",
+        "name": "Cultivator",
+        "description": "Efficient cultivator for breaking up soil and preparing seedbeds.",
+        "price": "₹1299",
+        "category": "Tools"
+    },
+    {
+        "id": 28,
+        "image": "drill",
+        "alt": "Seed Drill",
+        "name": "Seed Drill",
+        "description": "Precision seed drill for evenly planting seeds at the right depth and spacing.",
+        "price": "₹29999",
+        "category": "Tools"
+    },
+    {
+        "id": 29,
+        "image": "fet",
+        "alt": "Fertilizer Spreader",
+        "name": "Fertilizer Spreader",
+        "description": "Efficient fertilizer spreader for evenly distributing fertilizers and seeds.",
+        "price": "₹4499",
+        "category": "Tools"
+    },
+    {
+        "id": 30,
+        "image": "rot",
+        "alt": "Rotary Tiller",
+        "name": "Rotary Tiller",
+        "description": "Powerful rotary tiller for preparing soil for planting and removing weeds.",
+        "price": "₹19499",
+        "category": "Tools"
+    },
+    {
+        "id": 31,
+        "image": "earthaguer",
+        "alt": "Earth Auger",
+        "name": "Earth Auger",
+        "description": "Powerful earth auger for efficient digging of holes for planting trees and posts.",
+        "price": "₹8000",
+        "category": "Tools",
+        "tag" : "best"
+    },
+    {
+        "id": 32,
+        "image": "spary",
+        "alt": "Backpack Sprayer",
+        "name": "Backpack Sprayer",
+        "description": "Efficient sprayer for applying pesticides and fertilizers over large areas.",
+        "price": "₹9599",
+        "category": "Tools",
+        "tag" : "best"
+    },
+    {
+        "id": 33,
+        "image": "pump",
+        "alt": "Water Pump",
+        "name": "Water Pump",
+        "description": "High-performance water pump for efficient irrigation and drainage.",
+        "price": "₹11999",
+        "category": "Tools"
+    },
+    {
+        "id": 34,
+        "image": "pru",
+        "alt": "Pruners",
+        "name": "Pruners",
+        "description": "Premium garden sharp cutter pruners with a grip handle for trimming plants.",
+        "price": "₹499",
+        "category": "Tools"
+    },
+    {
+        "id": 35,
+        "image": "seedp",
+        "alt": "Seed Planter",
+        "name": "Seed Planter",
+        "description": "Precision tool for accurate and fast seed planting for large fields.",
+        "price": "₹25999",
+        "category": "Tools",
+        "tag" : "best"        
+    },
+    {
+        "id": 36,
+        "image": "hea",
+        "alt": "Heavy-Duty Wheelbarrow",
+        "name": "Heavy-Duty Wheelbarrow",
+        "description": "Strong and durable wheelbarrow for transporting materials easily.",
+        "price": "₹7999",
+        "category": "Tools"
+    }
+]
