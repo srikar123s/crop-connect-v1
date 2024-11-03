@@ -1,26 +1,82 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import images from '../../Images';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faLinkedinIn, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookF, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 import './Login.css';
 import { useGoogleLogin, GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext';
+import images from '../../Images'
 
 function Login() {
-    const { authenticated, login, logout } = useContext(AuthContext)
+    const { login } = useContext(AuthContext);
     const navigateTo = useNavigate();
     const [isPanelSwitched, setPanelSwitched] = useState(false);
+    const [signupData, setSignupData] = useState({ username: '', email: '', password: '', confirmPassword: '' });
+    const [loginData, setLoginData] = useState({ email: '', password: '' });
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const switchToSignUp = () => {
-        setPanelSwitched(true);
+    // Switch between sign-in and sign-up panels
+    const switchToSignUp = () => setPanelSwitched(true);
+    const switchToSignIn = () => setPanelSwitched(false);
+
+    // Handle signup form changes
+    const handleSignupChange = (e) => {
+        setSignupData({ ...signupData, [e.target.name]: e.target.value });
     };
 
-    const switchToSignIn = () => {
-        setPanelSwitched(false);
+    // Handle login form changes
+    const handleLoginChange = (e) => {
+        setLoginData({ ...loginData, [e.target.name]: e.target.value });
     };
+
+    // Signup request
+    const handleSignupSubmit = async (e) => {
+        e.preventDefault();
+        if (signupData.password !== signupData.confirmPassword) {
+            setErrorMessage('Passwords do not match');
+            return;
+        }
+        try {
+            console.log(signupData)
+            const response = await axios.post('http://localhost:5000/api/auth/signup', signupData);
+            setErrorMessage('');
+            alert(response.data.message);
+            switchToSignIn();
+        } catch (error) {
+            setErrorMessage(error.response?.data?.error || 'Signup failed');
+        }
+    };
+
+    // Login request
+    const handleLoginSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/api/auth/login', loginData);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user',response.data.user);
+            login();  // Set user as authenticated
+            navigateTo('/');
+        } catch (error) {
+            setErrorMessage(error.response?.data?.error || 'Login failed');
+        }
+    };
+
+    const handleGoogleLogin = async (gtoken) =>{
+        try{
+            const resp = await axios.post('http://localhost:5000/api/auth/google', {"token": gtoken?.credential});
+            localStorage.setItem('token', resp.data.token);
+            localStorage.setItem('user',resp.data.user);
+            console.log(resp.data.token);
+            login();  
+            navigateTo('/');
+        }
+        catch(error){
+            setErrorMessage(error.response?.data?.error  || 'Google login failed');
+        }
+    }
 
     return (
         <div>
@@ -32,14 +88,12 @@ function Login() {
                     <nav>
                         <ul className="nav">
                             <button className="btn nav-item" onClick={() => { navigateTo('/') }}>Home</button>
-
                             <button className="btn nav-item" onClick={() => {
                                 navigateTo('/#products');
                                 setTimeout(() => {
                                     document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
                                 }, 100);
                             }}>Categories</button>
-
                             <button className="btn nav-item" onClick={() => {
                                 navigateTo('/#benefits');
                                 setTimeout(() => {
@@ -59,57 +113,62 @@ function Login() {
             <div className='ncontainer'>
                 <div className={`auth-container ${isPanelSwitched ? 'right-panel-active' : ''}`} id="auth-container">
                     <div className="form-container sign-up-section">
-                        <form action="https://formsubmit.co/el/vadezu" method="POST">
+                        <form onSubmit={handleSignupSubmit}>
                             <h3>Create Account</h3>
                             <div className="social-icons" style={{ alignItems: "center" }}>
                                 <a href="#" className="social-icon" aria-label="Sign in with Facebook">
                                     <FontAwesomeIcon icon={faFacebookF} />
                                 </a>
-                                <GoogleOAuthProvider clientId="116503084132-c3o43ssvu22obvl6grptaoj004pfonkq.apps.googleusercontent.com">
+                              
+                                <a href="#" className="social-icon" aria-label="Sign in with LinkedIn">
+                                    <FontAwesomeIcon icon={faLinkedinIn} />
+                                </a>
+                            </div>
+                            <GoogleOAuthProvider clientId="116503084132-c3o43ssvu22obvl6grptaoj004pfonkq.apps.googleusercontent.com">
                                     <GoogleLogin
+                                     text="signup_with"
                                         onSuccess={credentialResponse => {
                                             console.log("here: ")
                                             console.log(credentialResponse);
-                                            login();
+                                            handleGoogleLogin();
                                             navigateTo('/');
                                         }}
                                         onError={() => {
                                             console.log('Login Failed');
-                                            logout();
                                         }}
 
                                     />
                                 </GoogleOAuthProvider>
-                                <a href="#" className="social-icon" aria-label="Sign in with LinkedIn">
-                                    <FontAwesomeIcon icon={faLinkedinIn} />
-                                </a>
-
-
-
-                            </div>
                             <br />
-                            <span>or use your email for registration</span><br />
-                            <input type="text" placeholder="User Name" required />
-                            <input type="email" placeholder="Email" required />
-                            <input type="password" placeholder="Password" required />
-                            <input type="password" placeholder="Confirm Password" required />
+                            <span>or use your account</span>
+                            <br />
+                            <input type="text" name="username" placeholder="User Name" value={signupData.username} onChange={handleSignupChange} required />
+                            <input type="email" name="email" placeholder="Email" value={signupData.email} onChange={handleSignupChange} required />
+                            <input type="password" name="password" placeholder="Password" value={signupData.password} onChange={handleSignupChange} required />
+                            <input type="password" name="confirmPassword" placeholder="Confirm Password" value={signupData.confirmPassword} onChange={handleSignupChange} required />
                             <button type="submit">Sign Up</button>
+                            {errorMessage && <p className="error">{errorMessage}</p>}
                         </form>
                     </div>
 
                     <div className="form-container sign-in-section">
-                        <form action="#">
+                        <form onSubmit={handleLoginSubmit}>
                             <h3>Sign In</h3>
                             <div className="social-icons" style={{ alignItems: "center" }}>
                                 <a href="#" className="social-icon" aria-label="Sign in with Facebook">
                                     <FontAwesomeIcon icon={faFacebookF} />
                                 </a>
-                                <GoogleOAuthProvider clientId="116503084132-c3o43ssvu22obvl6grptaoj004pfonkq.apps.googleusercontent.com">
+                                
+                                <a href="#" className="social-icon" aria-label="Sign in with LinkedIn">
+                                    <FontAwesomeIcon icon={faLinkedinIn} />
+                                </a>
+                            </div>
+                            <GoogleOAuthProvider clientId="116503084132-c3o43ssvu22obvl6grptaoj004pfonkq.apps.googleusercontent.com">
                                     <GoogleLogin
                                         onSuccess={credentialResponse => {
                                             console.log("here: ")
                                             console.log(credentialResponse);
-                                            login();
+                                            handleGoogleLogin(credentialResponse);
                                             navigateTo('/');
                                         }}
                                         onError={() => {
@@ -118,17 +177,13 @@ function Login() {
 
                                     />
                                 </GoogleOAuthProvider>
-                                <a href="#" className="social-icon" aria-label="Sign in with LinkedIn">
-                                    <FontAwesomeIcon icon={faLinkedinIn} />
-                                </a>
-                            </div>
                             <br />
                             <span>or use your account</span>
                             <br />
-                            <input type="email" placeholder="Email" required />
-                            <input type="password" placeholder="Password" required />
-                            <a href="#">Forgot your password?</a>
+                            <input type="email" name="email" placeholder="Email" value={loginData.email} onChange={handleLoginChange} required />
+                            <input type="password" name="password" placeholder="Password" value={loginData.password} onChange={handleLoginChange} required />
                             <button type="submit">Sign In</button>
+                            {errorMessage && <p className="error">{errorMessage}</p>}
                         </form>
                     </div>
 
