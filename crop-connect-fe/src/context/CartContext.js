@@ -13,32 +13,35 @@ export const CartProvider = ({ children }) => {
 
     // Function to add items to cart
     const addToCart = (item) => {
-        setCartItems(prevItems => {
-            const itemExists = prevItems.find(cartItem => cartItem.id === item.id);
+        setCartItems((prevItems) => {
+            // Check if an item with the same ID exists in the cart
+            const itemExists = prevItems.find((cartItem) => cartItem._id === item._id);
             if (itemExists) {
-                return prevItems.map(cartItem =>
-                    cartItem.id === item.id
+                // If the item exists, increase the quantity only for the matched item
+                return prevItems.map((cartItem) =>
+                    cartItem._id === item._id
                         ? { ...cartItem, quantity: cartItem.quantity + 1 }
                         : cartItem
                 );
             } else {
+                // If the item is new, add it to the cart with quantity set to 1
                 return [...prevItems, { ...item, quantity: 1 }];
             }
         });
-    };
-
+    };    
+    
     // Function to adjust item quantity
     const changeQuantity = (id, amount) => {
         setCartItems(prevItems => {
             return prevItems.map(item =>
-                item.id === id ? { ...item, quantity: item.quantity + amount } : item
+                item._id === id ? { ...item, quantity: item.quantity + amount } : item
             ).filter(item=>item.quantity>0);
         });
     };
 
     // Function to remove items from cart
     const removeItem = (id) => {
-        setCartItems(prevItems => prevItems.filter(item => item.id !== id));
+        setCartItems(prevItems => prevItems.filter(item => item._id !== id));
     };
 
     // Function to clear the cart

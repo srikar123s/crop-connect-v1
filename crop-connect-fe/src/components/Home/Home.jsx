@@ -146,8 +146,8 @@ const Home = () => {
 
                 <div className="row">
                     {bestSellers.map((product) => (
-                        <div className="col-md-4" key={product.id}>
-                            <div className="product" data-id={product.id}>
+                        <div className="col-md-4" key={product._id}>
+                            <div className="product" data-id={product._id}>
                                 <img src={images[product.image]} className="img-fluid" alt={product.name} />
                                 <h2>{product.name}</h2>
                                 <p>{product.description}</p>

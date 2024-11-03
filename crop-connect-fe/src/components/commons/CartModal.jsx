@@ -63,7 +63,7 @@ const CartModal = ({ visible, onClose }) => {
                                     </tr>
                                 ) : (
                                     cartItems.map((item) => (
-                                        <tr key={item.id}>
+                                        <tr key={item._id}>
                                             <td className="align-middle">
                                                 <div className="d-flex align-items-center">
                                                     <img
@@ -77,15 +77,15 @@ const CartModal = ({ visible, onClose }) => {
                                             </td>
                                             <td className="align-middle">
                                                 <div className="d-flex align-items-center">
-                                                    <button className="btn btn-sm btn-secondary me-2" onClick={() => changeQuantity(item.id, -1)}>-</button>
+                                                    <button className="btn btn-sm btn-secondary me-2" onClick={() => changeQuantity(item._id, -1)}>-</button>
                                                     <span>{item.quantity}</span>
-                                                    <button className="btn btn-sm btn-secondary ms-2" onClick={() => changeQuantity(item.id, 1)}>+</button>
+                                                    <button className="btn btn-sm btn-secondary ms-2" onClick={() => changeQuantity(item._id, 1)}>+</button>
                                                 </div>
                                             </td>
                                             <td className="align-middle">₹{parseFloat(item.price.replace(/[^\d.]/g, ''))}</td>
                                             <td className="align-middle">₹{parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity}</td>
                                             <td className="align-middle">
-                                                <button className="btn btn-sm btn-danger" onClick={() => removeItem(item.id)}>
+                                                <button className="btn btn-sm btn-danger" onClick={() => removeItem(item._id)}>
                                                     <FontAwesomeIcon icon={faTrash} />
                                                 </button>
                                             </td>

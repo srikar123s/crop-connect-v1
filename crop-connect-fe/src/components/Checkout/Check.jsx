@@ -11,7 +11,7 @@ import images from '../../Images';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faUser, faTrash, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from './ConfirmationModal';
-
+import axios from  'axios';
 
 function Check() {
     const navigate = useNavigate();
@@ -212,6 +212,34 @@ function Check() {
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + 3);
 
+     // Function to generate a random order number
+     const generateOrderNumber = () => {
+        return Math.floor(10000000 + Math.random() * 90000000).toString(); // 8-digit random number
+    };
+    const [orderNumber, setOrderNumber] = useState('');
+
+    const saveOrder = async ()=>{
+        const order_num = generateOrderNumber();
+        setOrderNumber(order_num);
+        const order = {
+            "email":localStorage.getItem('user'),
+            "orderId": order_num,
+            "orderDate": new Date(),
+            "deliveryDate": deliveryDate.toDateString(),
+            "orderItems": cartItems,
+            "orderStatus": "confirmed"
+        }
+        await axios.post("http://localhost:5000/api/orders/",order).then(
+            (response) => {
+                console.log(response.data);
+                toggleModal();
+
+            }
+        ).catch((error)=>{
+            console.log(error);
+        })
+    }
+
     return (
         <div>
             {/* Header Section */}
@@ -310,7 +338,7 @@ function Check() {
                                 <tbody id="cart-items"></tbody>
                                 {
                                     cartItems.map((item) => (
-                                        <tr key={item.id}>
+                                        <tr key={item._id}>
                                             <td className="align-middle">
                                                 <div className="d-flex align-items-center">
                                                     <img
@@ -324,15 +352,15 @@ function Check() {
                                             </td>
                                             <td className="align-middle">
                                                 <div className="d-flex align-items-center">
-                                                    <button className="btn btn-sm btn-secondary me-2" onClick={() => changeQuantity(item.id, -1)}>-</button>
+                                                    <button className="btn btn-sm btn-secondary me-2" onClick={() => changeQuantity(item._id, -1)}>-</button>
                                                     <span>{item.quantity}</span>
-                                                    <button className="btn btn-sm btn-secondary ms-2" onClick={() => changeQuantity(item.id, 1)}>+</button>
+                                                    <button className="btn btn-sm btn-secondary ms-2" onClick={() => changeQuantity(item._id, 1)}>+</button>
                                                 </div>
                                             </td>
                                             <td className="align-middle">₹{parseFloat(item.price.replace(/[^\d.]/g, ''))}</td>
                                             <td className="align-middle">₹{parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity}</td>
                                             <td className="align-middle">
-                                                <button className="btn btn-sm btn-danger" onClick={() => removeItem(item.id)}>
+                                                <button className="btn btn-sm btn-danger" onClick={() => removeItem(item._id)}>
                                                     <FontAwesomeIcon icon={faTrash} />
                                                 </button>
                                             </td>
@@ -418,7 +446,7 @@ function Check() {
                                 <tbody id="order-summary-items"></tbody>
                                 {
                                     cartItems.map((item) => (
-                                        <tr key={item.id}>
+                                        <tr key={item._id}>
                                             <td className="align-middle">
                                                 <div className="d-flex align-items-center">
                                                     <img
@@ -448,9 +476,9 @@ function Check() {
                             <h5>Total Amount: <b id="final-amount-review">₹{totalAmount + deliveryCharge}</b></h5>
                         </div>
                         <br />
-                        <button id="confirm-order" onClick={toggleModal}>Confirm Order and Pay</button>
+                        <button id="confirm-order" onClick={saveOrder}>Confirm Order and Pay</button>
                         <ConfirmationModal visible={modalVisible}
-                            onClose={toggleModal} />
+                            onClose={toggleModal} orderNumber={orderNumber} />
 
                     </div>
 

@@ -3,26 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../../context/CartContext'; // Make sure this path is correct
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const ConfirmationModal = ({ visible, onClose }) => {
-    const [orderNumber, setOrderNumber] = useState('');
+const ConfirmationModal = ({ visible, onClose, orderNumber}) => {
     const navigate = useNavigate();
     const { cartItems, clearCart } = useContext(CartContext); // Get clearCart function from CartContext
-
-    // Function to generate a random order number
-    const generateOrderNumber = () => {
-        return Math.floor(10000000 + Math.random() * 90000000).toString(); // 8-digit random number
-    };
 
     // Function to format date as DD MMM YYYY (e.g., 15 Jun 2023)
     const formatDate = (date) => {
         const options = { day: '2-digit', month: 'short', year: 'numeric' };
         return date.toLocaleDateString('en-US', options);
     };
-
-    // Set a random order number when the component mounts
-    useEffect(() => {
-        setOrderNumber(generateOrderNumber());
-    }, []);
 
     const handleClose = () => {
         clearCart(); // Clear the cart
@@ -71,7 +60,7 @@ const ConfirmationModal = ({ visible, onClose }) => {
                         <div className="mt-4">
                             <button 
                                 className="btn btn-success me-2" 
-                                onClick={handleClose(orderNumber)}
+                                onClick={handleClose}
                             >
                                 Continue Shopping
                             </button>
