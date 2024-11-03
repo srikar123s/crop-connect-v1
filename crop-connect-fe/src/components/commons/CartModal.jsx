@@ -14,7 +14,8 @@ const CartModal = ({ visible, onClose }) => {
     const { cartItems, changeQuantity, removeItem, clearCart } = useContext(CartContext);
 
     const totalAmount = cartItems.reduce((total, item) => {
-        const price = parseFloat(item.price.replace(/[^\d.]/g, ''));
+        const priceMatch = item.price.match(/₹(\d+)/);
+        const price = priceMatch ? parseInt(priceMatch[1], 10) : null;
         return total + price * item.quantity;
     }, 0);
 
@@ -82,8 +83,8 @@ const CartModal = ({ visible, onClose }) => {
                                                     <button className="btn btn-sm btn-secondary ms-2" onClick={() => changeQuantity(item._id, 1)}>+</button>
                                                 </div>
                                             </td>
-                                            <td className="align-middle">₹{parseFloat(item.price.replace(/[^\d.]/g, ''))}</td>
-                                            <td className="align-middle">₹{parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity}</td>
+                                            <td className="align-middle">₹{item.price.match(/₹(\d+)/) ? parseFloat(item.price.match(/₹(\d+)/)[1], 10) : null}</td>
+                                            <td className="align-middle">₹{(item.price.match(/₹(\d+)/) ? parseFloat(item.price.match(/₹(\d+)/)[1], 10) : null) * item.quantity}</td>
                                             <td className="align-middle">
                                                 <button className="btn btn-sm btn-danger" onClick={() => removeItem(item._id)}>
                                                     <FontAwesomeIcon icon={faTrash} />
