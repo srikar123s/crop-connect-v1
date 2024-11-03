@@ -17,6 +17,10 @@ function Check() {
     const navigate = useNavigate();
     const { cartItems, addToCart, changeQuantity, removeItem, clearCart } = useContext(CartContext);
     const [modalVisible, setModalVisible] = useState(false);
+    const [showCheckoutLayout, setShowCheckoutLayout] = useState(true);
+    const [showPaymentMethods, setShowPaymentMethods] = useState(false);
+    const [showReviewSection, setShowReviewSection] = useState(false);
+
     const toggleModal = () => {
         setModalVisible(prev => !prev);
     };
@@ -24,16 +28,16 @@ function Check() {
         const price = parseFloat(item.price.replace(/[^\d.]/g, ''));
         return total + price * item.quantity;
     }, 0);
-    const deliveryCharge = totalAmount>=1000 || cartItems.length<1 ? 0 : 50;
+    const deliveryCharge = totalAmount >= 1000 || cartItems.length < 1 ? 0 : 50;
     useEffect(() => {
-        if(cartItems.length<=0){
+        if (cartItems.length <= 0) {
             navigate('/');
         }
     }, [cartItems]);
 
     function validateForm() {
         let isValid = true;
-    
+
         const name = document.getElementById('name');
         if (name.value.trim() === '') {
             showError(name, 'Name is required');
@@ -41,7 +45,7 @@ function Check() {
         } else {
             clearError(name);
         }
-    
+
         const mobile = document.getElementById('mobile');
         if (!/^[0-9]{10}$/.test(mobile.value)) {
             showError(mobile, 'Please enter a valid 10-digit mobile number');
@@ -49,7 +53,7 @@ function Check() {
         } else {
             clearError(mobile);
         }
-    
+
         const pincode = document.getElementById('pincode');
         if (!/^[0-9]{6}$/.test(pincode.value)) {
             showError(pincode, 'Please enter a valid 6-digit pincode');
@@ -57,7 +61,7 @@ function Check() {
         } else {
             clearError(pincode);
         }
-    
+
         const address = document.getElementById('address');
         if (address.value.trim() === '') {
             showError(address, 'Address is required');
@@ -65,7 +69,7 @@ function Check() {
         } else {
             clearError(address);
         }
-    
+
         const area = document.getElementById('area');
         if (area.value.trim() === '') {
             showError(area, 'Area is required');
@@ -73,7 +77,7 @@ function Check() {
         } else {
             clearError(area);
         }
-    
+
         const town = document.getElementById('town');
         if (town.value.trim() === '') {
             showError(town, 'Town is required');
@@ -81,7 +85,7 @@ function Check() {
         } else {
             clearError(town);
         }
-    
+
         const state = document.getElementById('state');
         if (state.value.trim() === '') {
             showError(state, 'State is required');
@@ -89,10 +93,10 @@ function Check() {
         } else {
             clearError(state);
         }
-    
+
         return isValid;
     }
-    
+
     function showError(input, message) {
         const formControl = input.parentElement;
         const errorElement = formControl.querySelector('.error-message') || document.createElement('div');
@@ -103,7 +107,7 @@ function Check() {
         }
         input.className = 'form-control is-invalid';
     }
-    
+
     // Function to clear error messages
     function clearError(input) {
         const formControl = input.parentElement;
@@ -114,30 +118,31 @@ function Check() {
         input.className = 'form-control';
     }
 
-    const [showCheckoutLayout, setShowCheckoutLayout] = useState(true);
-const [showPaymentMethods, setShowPaymentMethods] = useState(false);
-const [showReviewSection, setShowReviewSection] = useState(false);
-
-// Then update the functions like this:
-function proceedToPayment() {
-    if (validateForm()) {
-        setShowCheckoutLayout(false);
-        setShowPaymentMethods(true);
-    } else {
-        alert('Please fill in all required fields correctly.');
+    // Then update the functions like this:
+    function proceedToPayment() {
+        if (validateForm()) {
+            setShowCheckoutLayout(false);
+            setShowPaymentMethods(true);
+        } else {
+            alert('Please fill in all required fields correctly.');
+        }
     }
-}
 
-function makePayment() {
-    const selectedPayment = document.querySelector('input[name="payment"]:checked');
-    if (!selectedPayment) {
-        alert('Please select a payment method.');
-        return;
+    function makePayment() {
+        const selectedPayment = document.querySelector('input[name="payment"]:checked');
+        if (!selectedPayment) {
+            alert('Please select a payment method.');
+            return;
+        }
+        setShowPaymentMethods(false);
+        setShowReviewSection(true);
     }
-    setShowPaymentMethods(false);
-    setShowReviewSection(true);
-}
-
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    };
     function proceedToPayment() {
         if (validateForm()) {
             // Hide checkout form section
@@ -145,13 +150,15 @@ function makePayment() {
             if (checkoutLayout) {
                 checkoutLayout.style.display = 'none';
             }
-    
+
             // Show payment methods section
             const paymentMethods = document.getElementById('payment-methods');
             if (paymentMethods) {
                 paymentMethods.style.display = 'block';
+                scrollToTop();
+                
             }
-    
+
             // Update progress steps
             const steps = document.querySelectorAll('.checkout-progress .step');
             steps.forEach((step, index) => {
@@ -174,36 +181,37 @@ function makePayment() {
             alert('Please select a payment method.');
             return;
         }
-    
+
         // Hide payment methods section
         const paymentMethods = document.getElementById('payment-methods');
         if (paymentMethods) {
             paymentMethods.style.display = 'none';
         }
-    
+
         // Show review section
         const reviewSection = document.getElementById('review-section');
         if (reviewSection) {
             reviewSection.style.display = 'block';
+            scrollToTop();
         }
-    
+
         // Populate order summary with images
         const orderSummaryItems = document.getElementById('order-summary-items');
         orderSummaryItems.innerHTML = ''; // Clear previous items
         // Update progress steps
         const steps = document.querySelectorAll('.checkout-progress .step');
-            steps.forEach((step, index) => {
-                if (index === 1) {
-                    step.classList.remove('active');
-                }
-                if (index === 2) {
-                    step.classList.add('active');
-                }
-            });
+        steps.forEach((step, index) => {
+            if (index === 1) {
+                step.classList.remove('active');
+            }
+            if (index === 2) {
+                step.classList.add('active');
+            }
+        });
     }
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + 3);
-    
+
     return (
         <div>
             {/* Header Section */}
@@ -346,69 +354,69 @@ function makePayment() {
                                 </tr>
                                 <tr>
                                     <td><strong>Total Amount :</strong></td>
-                                    <td id="final-amount"><strong>₹{totalAmount+deliveryCharge}</strong></td>
+                                    <td id="final-amount"><strong>₹{totalAmount + deliveryCharge}</strong></td>
                                 </tr>
                             </table>
                         </div>
                     </div>
 
                     <div class="payment-methods" id="payment-methods">
-                <h2> Payment Method</h2>
+                        <h2> Payment Method</h2>
 
-                <div class="payment-method">
-                    <input type="radio" id="credit-debit" name="payment" value="credit-debit" />
-                    <label for="credit-debit">Credit or debit card <br />
-                        <img src={images['visa']} alt="Visa" width="30" /> 
-                        <img src={images['master']} alt="MasterCard" width="30" />                         
-                        <img src={images['rupay']} alt="RuPay" width="30" />
-                    </label>
-                </div>
-<br />
-                <div class="payment-method">
-                    <input type="radio" id="net-banking" name="payment" value="net-banking" />
-                    <label for="net-banking">Net Banking <br />
-                        <img src={images['ic']} alt="ICICI Bank" width="30" /> 
-                        <img src={images['hd']} alt="HDFC Bank" width="30" /> 
-                        <img src={images['ax']} alt="Axis Bank" width="30" /> 
-                        <img src={images['sbi']} alt="SBI" width="30" />
-                    </label>
-                </div>
-<br />
-                <div class="payment-method">
-                    <input type="radio" id="wallet" name="payment" value="wallet" />
-                    <label for="wallet">Wallet <br/>
-                        <img src={images['pap']} alt="Paytm" width="30" /> 
-                        <img src={images['pp']} alt="PhonePe" width="30" /> 
-                        <img src={images['gp']} alt="Google Pay" width="30" />
-                    </label>
-                </div>
-<br/>
-                <div class="payment-method">
-                    <input type="radio" id="cod" name="payment" value="cod" />
-                    <label for="net-banking">Cash On Delivery <br/>
-                        <img src={images['cod']} alt="cod" width="30" />
-                        
-                    </label>
-                </div>
+                        <div class="payment-method">
+                            <input type="radio" id="credit-debit" name="payment" value="credit-debit" />
+                            <label for="credit-debit">Credit or debit card <br />
+                                <img src={images['visa']} alt="Visa" width="30" />
+                                <img src={images['master']} alt="MasterCard" width="30" />
+                                <img src={images['rupay']} alt="RuPay" width="30" />
+                            </label>
+                        </div>
+                        <br />
+                        <div class="payment-method">
+                            <input type="radio" id="net-banking" name="payment" value="net-banking" />
+                            <label for="net-banking">Net Banking <br />
+                                <img src={images['ic']} alt="ICICI Bank" width="30" />
+                                <img src={images['hd']} alt="HDFC Bank" width="30" />
+                                <img src={images['ax']} alt="Axis Bank" width="30" />
+                                <img src={images['sbi']} alt="SBI" width="30" />
+                            </label>
+                        </div>
+                        <br />
+                        <div class="payment-method">
+                            <input type="radio" id="wallet" name="payment" value="wallet" />
+                            <label for="wallet">Wallet <br />
+                                <img src={images['pap']} alt="Paytm" width="30" />
+                                <img src={images['pp']} alt="PhonePe" width="30" />
+                                <img src={images['gp']} alt="Google Pay" width="30" />
+                            </label>
+                        </div>
+                        <br />
+                        <div class="payment-method">
+                            <input type="radio" id="cod" name="payment" value="cod" />
+                            <label for="net-banking">Cash On Delivery <br />
+                                <img src={images['cod']} alt="cod" width="30" />
 
-                <button class="use-payment" id="proceed-payment" onClick={() => makePayment()}>use this Payment Method</button>
-            </div>
+                            </label>
+                        </div>
 
-               <div class="review-section" id="review-section" style={{"display":'none'}}>
-                <h2>Review Your Order</h2>
-                <div class="order-summary">
-                    <h3>Order Summary</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Quantity</th>
-                                <th>Price</th>                                
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="order-summary-items"></tbody>
-                        {
+                        <button class="use-payment" id="proceed-payment" onClick={() => makePayment()}>use this Payment Method</button>
+                    </div>
+
+                    <div class="review-section" id="review-section" style={{ "display": 'none' }}>
+                        <h2>Review Your Order</h2>
+                        <div class="order-summary">
+                            <h3>Order Summary</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="order-summary-items"></tbody>
+                                {
                                     cartItems.map((item) => (
                                         <tr key={item.id}>
                                             <td className="align-middle">
@@ -424,32 +432,32 @@ function makePayment() {
                                             </td>
                                             <td className="align-middle">
                                                 <div className="d-flex align-items-center">
-                                                   
+
                                                     <span>{item.quantity}</span>
-                                                    
+
                                                 </div>
                                             </td>
                                             <td className="align-middle">₹{parseFloat(item.price.replace(/[^\d.]/g, ''))}</td>
                                             <td className="align-middle">₹{parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity}</td>
-                                            
+
                                         </tr>
                                     ))
                                 }
-                    </table>
-                    <h5>Delivery Date: <strong id="delivery-date">{deliveryDate.toDateString()}</strong></h5>
-                    <h5>Total Amount: <b id="final-amount-review">₹{totalAmount+deliveryCharge}</b></h5>
-                </div>
-                <br/>
-                <button id="confirm-order" onClick={toggleModal}>Confirm Order and Pay</button>
-                <ConfirmationModal visible={modalVisible}
-                                onClose={toggleModal} />
+                            </table>
+                            <h5>Delivery Date: <strong id="delivery-date">{deliveryDate.toDateString()}</strong></h5>
+                            <h5>Total Amount: <b id="final-amount-review">₹{totalAmount + deliveryCharge}</b></h5>
+                        </div>
+                        <br />
+                        <button id="confirm-order" onClick={toggleModal}>Confirm Order and Pay</button>
+                        <ConfirmationModal visible={modalVisible}
+                            onClose={toggleModal} />
 
-            </div>
+                    </div>
 
-            <div class="customer-support">
-                <div id ="support-text">Need help? Contact our customer support team.</div>
-                <button id="support-btn">Support</button>
-            </div>
+                    <div class="customer-support">
+                        <div id="support-text">Need help? Contact our customer support team.</div>
+                        <button id="support-btn">Support</button>
+                    </div>
 
 
                 </div>
