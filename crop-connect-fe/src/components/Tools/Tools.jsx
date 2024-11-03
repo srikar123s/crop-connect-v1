@@ -5,7 +5,7 @@ import CartModal from '../commons/CartModal';
 import images from '../../Images';
 import '../Seeds/pro.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faUser, faTrash, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../../context/CartContext';
@@ -14,7 +14,7 @@ import { CartContext } from '../../context/CartContext';
 function Tools() {
 
     const navigate = useNavigate();
-    const { cartItems,addToCart, changeQuantity, removeItem, clearCart } = useContext(CartContext);
+    const { cartItems,addToCart } = useContext(CartContext);
     const [modalVisible, setModalVisible] = useState(false);
     const [tools, setTools] = useState([]); // Added seeds state
 
