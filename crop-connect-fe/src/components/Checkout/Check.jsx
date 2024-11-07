@@ -11,7 +11,7 @@ import images from '../../Images';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faUser, faTrash, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from './ConfirmationModal';
-import axios from  'axios';
+import axios from 'axios';
 
 function Check() {
     const navigate = useNavigate();
@@ -20,10 +20,42 @@ function Check() {
     const [showCheckoutLayout, setShowCheckoutLayout] = useState(true);
     const [showPaymentMethods, setShowPaymentMethods] = useState(false);
     const [showReviewSection, setShowReviewSection] = useState(false);
+    const [orderNumber, setOrderNumber] = useState('');
+    const [handleOrder] = useState('');
+    const [deliveryDate, setDeliveryDate] = useState(new Date()); // Initialize as Date object
+    const [formData, setFormData] = useState({
+        name: '',
+        mobile: '',
+        pincode: '',
+        address: '',
+        area: '',
+        landmark: '',
+        town: ''
+
+    });
+
+
+    const handleInputChange = (e) => {
+        const { id, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
+    };
+
+
 
     const toggleModal = () => {
         setModalVisible(prev => !prev);
     };
+
+    useEffect(() => {
+        // Set delivery date to 3 days from now when component mounts
+        const date = new Date();
+        date.setDate(date.getDate() + 3);
+        setDeliveryDate(date);
+    }, []);
+
     const totalAmount = cartItems.reduce((total, item) => {
         const price = parseFloat(item.price.replace(/[^\d.]/g, ''));
         return total + price * item.quantity;
@@ -156,7 +188,7 @@ function Check() {
             if (paymentMethods) {
                 paymentMethods.style.display = 'block';
                 scrollToTop();
-                
+
             }
 
             // Update progress steps
@@ -198,6 +230,7 @@ function Check() {
         // Populate order summary with images
         const orderSummaryItems = document.getElementById('order-summary-items');
         orderSummaryItems.innerHTML = ''; // Clear previous items
+
         // Update progress steps
         const steps = document.querySelectorAll('.checkout-progress .step');
         steps.forEach((step, index) => {
@@ -208,37 +241,60 @@ function Check() {
                 step.classList.add('active');
             }
         });
+
+        // Set delivery date 3 days from now
+        const deliveryDate = new Date();
+        deliveryDate.setDate(deliveryDate.getDate() + 3);
+
+        // Generate a random order number
+        const newOrderNumber = Math.floor(10000000 + Math.random() * 90000000).toString();
+        setOrderNumber(newOrderNumber);
+
+        // Get the user's phone number from the form input (Assuming there's an input field for phone number)
+        const userPhoneNumber = formData.mobile; // Make sure there's a phoneNumber input field
+
+        // Prepare the list of items (cartItems is assumed to be an array of objects with name, price, and quantity)
+        const orderItems = cartItems.map(item => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price
+        }));
+
+        // Send the order details to the backend to save order and send WhatsApp message
+        const handleOrder = () => {
+            const order = {
+                email: localStorage.getItem('user'),
+                orderId: orderNumber,
+                orderDate: new Date(),
+                deliveryDate: deliveryDate.toDateString(),
+                orderItems: orderItems,
+                orderStatus: "confirmed"
+            };
+
+            // Make a POST request to save the order and send a WhatsApp message
+            axios.post("http://localhost:5000/api/orders/", order)
+                .then(response => {
+                    // After saving the order, send WhatsApp message
+                    return axios.post("http://localhost:5000/api/send-whatsapp", {
+                        phoneNumber: userPhoneNumber,
+                        orderId: newOrderNumber,
+                        orderDate: new Date().toDateString(),
+                        deliveryDate: deliveryDate.toDateString(),
+                        orderItems: orderItems
+                    });
+                })
+                .then(response => {
+                    console.log('WhatsApp message sent:', response.data);
+                    alert('Order confirmed and WhatsApp message sent!');
+                    toggleModal();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Order confirmed, but failed to send WhatsApp message.');
+                });
+        };
     }
-    const deliveryDate = new Date();
-    deliveryDate.setDate(deliveryDate.getDate() + 3);
 
-     // Function to generate a random order number
-     const generateOrderNumber = () => {
-        return Math.floor(10000000 + Math.random() * 90000000).toString(); // 8-digit random number
-    };
-    const [orderNumber, setOrderNumber] = useState('');
-
-    const saveOrder = async ()=>{
-        const order_num = generateOrderNumber();
-        setOrderNumber(order_num);
-        const order = {
-            "email":localStorage.getItem('user'),
-            "orderId": order_num,
-            "orderDate": new Date(),
-            "deliveryDate": deliveryDate.toDateString(),
-            "orderItems": cartItems,
-            "orderStatus": "confirmed"
-        }
-        await axios.post("http://localhost:5000/api/orders/",order).then(
-            (response) => {
-                console.log(response.data);
-                toggleModal();
-
-            }
-        ).catch((error)=>{
-            console.log(error);
-        })
-    }
 
     return (
         <div>
@@ -282,32 +338,57 @@ function Check() {
                     <div class="checkout-layout">
                         <div class="checkout-form">
                             <h2>Shipping Information</h2>
-                            <form id="checkout-form">
+                            <form id="checkout-form" onSubmit={(e) => e.preventDefault()}>
                                 <label for="country">Country/Region</label>
                                 <select id="country" required>
                                     <option value="India" selected>India</option>
                                 </select>
 
                                 <label for="name">Full Name (First and Last Name)</label>
-                                <input type="text" id="name" required />
+                                <input
+                                    type="text"
+                                    id="name"
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                    required
+                                />
 
                                 <label for="mobile">Mobile Number</label>
-                                <input type="tel" id="mobile" required placeholder="10-digit number" title="Please enter a 10-digit mobile number" />
+                                <input
+                                    type="tel"
+                                    id="mobile"
+                                    value={formData.mobile}
+                                    onChange={handleInputChange}
+                                    required
+                                    placeholder="10-digit number"
+                                    pattern="[0-9]{10}"
+                                />
 
                                 <label for="pincode">Pincode</label>
-                                <input type="text" id="pincode" required placeholder="6-digit PIN code" title="Please enter a 6-digit PIN code" />
+                                <input
+                                    type="text"
+                                    id="pincode"
+                                    value={formData.pincode}
+                                    onChange={handleInputChange}
+                                    required
+                                    placeholder="6-digit PIN code"
+                                />
 
                                 <label for="address">Flat, House no., Building, Company, Apartment</label>
-                                <input type="text" id="address" required />
+                                <input type="text" id="address" value={formData.address}
+                                    onChange={handleInputChange} required />
 
                                 <label for="area">Area, Street, Sector, Village</label>
-                                <input type="text" id="area" required />
+                                <input type="text" id="area" value={formData.area}
+                                    onChange={handleInputChange} required />
 
                                 <label for="landmark">Landmark</label>
-                                <input type="text" id="landmark" placeholder="E.g. near Apollo Hospital" />
+                                <input type="text" id="landmark" value={formData.landmark}
+                                    onChange={handleInputChange} placeholder="E.g. near Apollo Hospital" />
 
                                 <label for="town">Town/City</label>
-                                <input type="text" id="town" required />
+                                <input type="text" id="town" value={formData.town}
+                                    onChange={handleInputChange} required />
 
                                 <label for="state">State</label>
                                 <select id="state" required>
@@ -476,7 +557,7 @@ function Check() {
                             <h5>Total Amount: <b id="final-amount-review">₹{totalAmount + deliveryCharge}</b></h5>
                         </div>
                         <br />
-                        <button id="confirm-order" onClick={saveOrder}>Confirm Order and Pay</button>
+                        <button id="confirm-order" onClick={handleOrder}>Confirm Order and Pay</button>
                         <ConfirmationModal visible={modalVisible}
                             onClose={toggleModal} orderNumber={orderNumber} />
 
