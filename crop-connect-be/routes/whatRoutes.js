@@ -9,8 +9,10 @@ const port = 5000;
 app.use(bodyParser.json());
 
 // Twilio credentials
-const accountSid = 'ACe5e29740404f11c253d59ba61a3fb1c7'; // Replace with your Twilio Account SID
-const authToken = 'c7ec60d94adbfc6ac05c84d69a8a8cd6'; // Replace with your Twilio Auth Token
+
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID; // Replace with your Twilio Account SID
+const authToken =  process.env.TWILIO_AUTHTOKEN; // Replace with your Twilio Auth Token
 const client = twilio(accountSid, authToken);
 
 // WhatsApp Number (Twilio WhatsApp sandbox number or purchased number)
