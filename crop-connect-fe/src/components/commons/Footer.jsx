@@ -26,10 +26,10 @@ const Footer = () => {
                 {/* Newsletter Subscription Form */}
                 <div className="footer-newsletter">
                     <h4>Subscribe to our Newsletter</h4>
-                    <forms action="#" method="post">
+                    <form action="#" method="post">
                         <input type="email" placeholder="Enter your email" required />
                         <button type="submit">Subscribe</button>
-                    </forms>
+                    </form>
                 </div>
 
                 {/* Embedded Google Map */}
