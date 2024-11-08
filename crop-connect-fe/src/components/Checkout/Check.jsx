@@ -286,13 +286,12 @@ function Check() {
                 });
             })
             .then(response => {
-                console.log('WhatsApp message sent:', response.data);
-                alert('Order confirmed and WhatsApp message sent!');
+                
                 toggleModal();
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Order confirmed, but failed to send WhatsApp message.');
+                
             });
     };
 

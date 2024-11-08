@@ -52,7 +52,7 @@ const ConfirmationModal = ({ visible, onClose, orderNumber}) => {
                                 </div>
                                 <div className="col-md-6 text-start">
                                     <h5 className="mb-3">Delivery Information:</h5>
-                                    <p>You will receive an email confirmation with tracking details shortly.</p>
+                                    <p>You will receive an message confirmation with  details shortly.</p>
                                 </div>
                             </div>
                         </div>
