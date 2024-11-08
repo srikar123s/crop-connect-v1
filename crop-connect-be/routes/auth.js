@@ -44,31 +44,32 @@ router.post('/login', async (req, res) => {
 
         const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(200).json({ token:  token, user: user.email });
+        res.status(200).json({ token: token, user: user.email });
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-router.post('/google', async(req,res)=>{
-    const {token}=req.body;
-    console.log(token)
+router.post('/google', async (req, res) => {
+    const { token } = req.body;
     const decoded = jwt.decode(token);
-    console.log(decoded);
-    console.log(decoded.name);
-    const {name, email} =  decoded;
-    const user = await User.findOne({email});
-    if(!user){
-        let user = new User({
-            username: name, 
-            email, 
+    const { name, email } = decoded;
+    const user = await User.findOne({ email });
+    if (!user) {
+        let user_google = new User({
+            username: name,
+            email,
             password: token,
-            method: 'google' // Adding method field as required by User schema
+            method: 'google'
         });
-        user = await user.save();
+        user_google = await user_google.save();
+        const jwt_token = jwt.sign({ userId: user_google._id }, JWT_SECRET, { expiresIn: '1h' });
+        return res.status(200).json({ token: jwt_token, user: email });
     }
-    const jwt_token = jwt.sign({userId:user._id},JWT_SECRET,{expiresIn:'1h'});
-    res.status(200).json({token:jwt_token,user:email});
+    else {
+        const jwt_token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+        res.status(200).json({ token: jwt_token, user: email });
+    }
 })
 
 module.exports = router;

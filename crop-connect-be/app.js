@@ -17,7 +17,7 @@ app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/auth',  userRoutes);
 app.use('/api/orders',orderRoutes);
-app.use('/api/send-whatsapp',whatRoutes);
+app.use('/api/twilio',whatRoutes);
 
 
 module.exports = app;

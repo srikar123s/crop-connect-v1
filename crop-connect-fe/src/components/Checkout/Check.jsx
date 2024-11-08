@@ -21,7 +21,6 @@ function Check() {
     const [showPaymentMethods, setShowPaymentMethods] = useState(false);
     const [showReviewSection, setShowReviewSection] = useState(false);
     const [orderNumber, setOrderNumber] = useState('');
-    const [handleOrder] = useState('');
     const [deliveryDate, setDeliveryDate] = useState(new Date()); // Initialize as Date object
     const [formData, setFormData] = useState({
         name: '',
@@ -241,11 +240,14 @@ function Check() {
                 step.classList.add('active');
             }
         });
+    }
 
-        // Set delivery date 3 days from now
-        const deliveryDate = new Date();
-        deliveryDate.setDate(deliveryDate.getDate() + 3);
-
+    // Send the order details to the backend to save order and send WhatsApp message
+    const handleOrder = () => {
+         // Set delivery date 3 days from now
+         const deliveryDate = new Date();
+         deliveryDate.setDate(deliveryDate.getDate() + 3);
+ 
         // Generate a random order number
         const newOrderNumber = Math.floor(10000000 + Math.random() * 90000000).toString();
         setOrderNumber(newOrderNumber);
@@ -260,40 +262,39 @@ function Check() {
             price: item.price
         }));
 
-        // Send the order details to the backend to save order and send WhatsApp message
-        const handleOrder = () => {
-            const order = {
-                email: localStorage.getItem('user'),
-                orderId: orderNumber,
-                orderDate: new Date(),
-                deliveryDate: deliveryDate.toDateString(),
-                orderItems: orderItems,
-                orderStatus: "confirmed"
-            };
+        const order = {
+            "email":localStorage.getItem('user'),
+            "orderId": orderNumber,
+            "orderDate": new Date(),
+            "deliveryDate": deliveryDate.toDateString(),
+            "orderItems": cartItems,
+            "orderStatus": "confirmed"
+        }
 
-            // Make a POST request to save the order and send a WhatsApp message
-            axios.post("http://localhost:5000/api/orders/", order)
-                .then(response => {
-                    // After saving the order, send WhatsApp message
-                    return axios.post("http://localhost:5000/api/send-whatsapp", {
-                        phoneNumber: userPhoneNumber,
-                        orderId: newOrderNumber,
-                        orderDate: new Date().toDateString(),
-                        deliveryDate: deliveryDate.toDateString(),
-                        orderItems: orderItems
-                    });
-                })
-                .then(response => {
-                    console.log('WhatsApp message sent:', response.data);
-                    alert('Order confirmed and WhatsApp message sent!');
-                    toggleModal();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Order confirmed, but failed to send WhatsApp message.');
+
+        // Make a POST request to save the order and send a WhatsApp message
+        axios.post("http://localhost:5000/api/orders/", order)
+            .then(response => {
+                console.log('phone number:', userPhoneNumber);
+                // After saving the order, send WhatsApp message
+                return axios.post("http://localhost:5000/api/twilio/send-whatsapp", {
+                    phoneNumber: userPhoneNumber,
+                    orderId: newOrderNumber,
+                    orderDate: new Date().toDateString(),
+                    deliveryDate: deliveryDate.toDateString(),
+                    orderItems: orderItems
                 });
-        };
-    }
+            })
+            .then(response => {
+                console.log('WhatsApp message sent:', response.data);
+                alert('Order confirmed and WhatsApp message sent!');
+                toggleModal();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Order confirmed, but failed to send WhatsApp message.');
+            });
+    };
 
 
     return (
