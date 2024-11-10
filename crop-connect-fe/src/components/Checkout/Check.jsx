@@ -19,6 +19,7 @@ function Check() {
     const [modalVisible, setModalVisible] = useState(false);
     const [showCheckoutLayout, setShowCheckoutLayout] = useState(true);
     const [showPaymentMethods, setShowPaymentMethods] = useState(false);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
     const [showReviewSection, setShowReviewSection] = useState(false);
     const [orderNumber, setOrderNumber] = useState('');
     const [deliveryDate, setDeliveryDate] = useState(new Date()); // Initialize as Date object
@@ -174,6 +175,13 @@ function Check() {
             behavior: "smooth"
         });
     };
+
+
+    const handlePaymentSelection = (event) => {
+        setSelectedPaymentMethod(event.target.value);
+    };
+    
+
     function proceedToPayment() {
         if (validateForm()) {
             // Hide checkout form section
@@ -207,12 +215,11 @@ function Check() {
 
     function makePayment() {
         // Verify payment method is selected
-        const selectedPayment = document.querySelector('input[name="payment"]:checked');
-        if (!selectedPayment) {
-            alert('Please select a payment method.');
-            return;
+        if (selectedPaymentMethod) {
+            setShowReviewSection(true); // Show the review section
+        } else {
+            alert('Please select a payment method');
         }
-
         // Hide payment methods section
         const paymentMethods = document.getElementById('payment-methods');
         if (paymentMethods) {
@@ -293,6 +300,7 @@ function Check() {
                 console.error('Error:', error);
                 
             });
+            
     };
 
 
@@ -473,7 +481,7 @@ function Check() {
                         <h2> Payment Method</h2>
 
                         <div class="payment-method">
-                            <input type="radio" id="credit-debit" name="payment" value="credit-debit" />
+                            <input type="radio" id="credit-debit" name="payment" value="credit-debit" onChange={handlePaymentSelection}/>
                             <label for="credit-debit">Credit or debit card <br />
                                 <img src={images['visa']} alt="Visa" width="30" />
                                 <img src={images['master']} alt="MasterCard" width="30" />
@@ -482,7 +490,7 @@ function Check() {
                         </div>
                         <br />
                         <div class="payment-method">
-                            <input type="radio" id="net-banking" name="payment" value="net-banking" />
+                            <input type="radio" id="net-banking" name="payment" value="net-banking" onChange={handlePaymentSelection}/>
                             <label for="net-banking">Net Banking <br />
                                 <img src={images['ic']} alt="ICICI Bank" width="30" />
                                 <img src={images['hd']} alt="HDFC Bank" width="30" />
@@ -492,7 +500,7 @@ function Check() {
                         </div>
                         <br />
                         <div class="payment-method">
-                            <input type="radio" id="wallet" name="payment" value="wallet" />
+                            <input type="radio" id="wallet" name="payment" value="wallet" onChange={handlePaymentSelection}/>
                             <label for="wallet">Wallet <br />
                                 <img src={images['pap']} alt="Paytm" width="30" />
                                 <img src={images['pp']} alt="PhonePe" width="30" />
@@ -501,7 +509,7 @@ function Check() {
                         </div>
                         <br />
                         <div class="payment-method">
-                            <input type="radio" id="cod" name="payment" value="cod" />
+                            <input type="radio" id="cod" name="payment" value="cod" onChange={handlePaymentSelection}/>
                             <label for="net-banking">Cash On Delivery <br />
                                 <img src={images['cod']} alt="cod" width="30" />
 
@@ -553,6 +561,7 @@ function Check() {
                                     ))
                                 }
                             </table>
+                            <h5>Payment Method:<strong> {selectedPaymentMethod}</strong></h5>
                             <h5>Delivery Date: <strong id="delivery-date">{deliveryDate.toDateString()}</strong></h5>
                             <h5>Total Amount: <b id="final-amount-review">₹{totalAmount + deliveryCharge}</b></h5>
                         </div>
