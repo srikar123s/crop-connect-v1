@@ -7,6 +7,7 @@ import Fer from './components/Fertilizers/Fer';
 import Tools from './components/Tools/Tools';
 import Check from './components/Checkout/Check';
 import NoPage from './components/NoPage/NoPage';
+import WeatherForecast from './components/Weather/Weather';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           <Route path="seeds" element={<Seeds />} />
           <Route path="fer" element={<Fer />} />
           <Route path="tools" element={<Tools />} />
-          <Route path="check" element={<Check />} />
+          <Route path="check" element={<Check />} />          
+          <Route path="weather" element={<WeatherForecast />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
