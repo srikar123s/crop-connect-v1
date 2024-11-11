@@ -8,7 +8,11 @@ const JWT_SECRET = 'your_jwt_secret';  // Replace with your own secret
 
 // Signup route
 router.post('/signup', async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, confirmPassword, method } = req.body;
+
+    if (password !== confirmPassword) {
+        return res.status(400).json({ error: 'Passwords do not match' });
+    }
 
     try {
         const existingUser = await User.findOne({ email });
@@ -18,14 +22,16 @@ router.post('/signup', async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const user = new User({ username, email, password: hashedPassword });
+        const user = new User({ username, email, password: hashedPassword, method });
         await user.save();
 
         res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'Server error' });
+        console.error('Error during signup:', error); // Log the error details
+        res.status(500).json({ error: 'Server error', details: error.message });
     }
 });
+
 
 // Login route
 router.post('/login', async (req, res) => {

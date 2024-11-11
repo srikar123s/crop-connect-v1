@@ -146,6 +146,7 @@ function Login() {
                             <input type="email" name="email" placeholder="Email" value={signupData.email} onChange={handleSignupChange} required />
                             <input type="password" name="password" placeholder="Password" value={signupData.password} onChange={handleSignupChange} required />
                             <input type="password" name="confirmPassword" placeholder="Confirm Password" value={signupData.confirmPassword} onChange={handleSignupChange} required />
+                            <input type="hidden" name="method" value="form" />
                             <button type="submit">Sign Up</button>
                             {errorMessage && <p className="error">{errorMessage}</p>}
                         </form>
