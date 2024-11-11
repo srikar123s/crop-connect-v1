@@ -11,6 +11,7 @@ import Footer from '../commons/Footer';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../../context/CartContext';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Home = () => {
         setModalVisible(prev => !prev);
     };
 
-  
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -79,12 +80,7 @@ const Home = () => {
                                 <li className="nav-item"><a href="#contact" className="nav-link text-black">Contact Us</a></li>
                             </ul>
                         </nav>
-                        <div>
-                            <form className="d-flex">
-                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-outline-light text-black" type="submit">Search</button>
-                            </form>
-                        </div>
+                       
                         <div className="icon d-flex align-items-center">
                             <a href="#" onClick={toggleModal} className="position-relative me-3" >
                                 <FontAwesomeIcon icon={faShoppingCart} id='cart-btn' style={{ cursor: 'pointer' }} />
@@ -99,6 +95,10 @@ const Home = () => {
                             <button className="btn nav-item" onClick={() => { navigate('/login') }}>
                                 <FontAwesomeIcon icon={faUser} id="login-btn" style={{ cursor: 'pointer' }} />
                             </button>
+                            <button className="btn nav-item" onClick={() => { navigate('/weather') }}>
+                                <FontAwesomeIcon icon={faCloudSun} /> 
+                            </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -108,7 +108,7 @@ const Home = () => {
             <section className="hero text-center">
                 <div>
                     <h1>Quality Seeds, Fertilizers, and Tools for Your Farming Needs</h1>
-                    <p>Explore our wide range of products to boost your farm productivity.</p>
+                    <h2>From Seed To Success, We Have Got You Covered</h2>
                     <a href="#best" className="btn btn-warning btn-lg">Shop Now</a>
                 </div>
             </section>
@@ -159,7 +159,7 @@ const Home = () => {
                 </div>
             </section>
 
-            <button 
+            <button
                 className={`scroll-to-top ${isVisible ? 'visible' : ''}`}
                 onClick={scrollToTop}
             >
@@ -199,7 +199,7 @@ const Home = () => {
                                 <img src={images['av']} alt="Customer Photo" className="rounded-circle mb-3" width="80" height="80" />
                                 <p className="testimonial-text">"Great quality seeds! My crops have been healthier!"</p>
                                 <span className="testimonial-rating">★★★★★</span>
-                                <p className="testimonial-name mt-2">- John Smith</p>
+                                <p className="testimonial-name mt-2">- Srikar Y</p>
                             </div>
                         </div>
                         <div className="col-md-4">
@@ -207,7 +207,7 @@ const Home = () => {
                                 <img src={images['av']} alt="Customer Photo" className="rounded-circle mb-3" width="80" height="80" />
                                 <p className="testimonial-text">"Fast shipping and excellent customer service."</p>
                                 <span className="testimonial-rating">★★★★☆</span>
-                                <p className="testimonial-name mt-2">- Sarah Johnson</p>
+                                <p className="testimonial-name mt-2">- Sagar Reddy</p>
                             </div>
                         </div>
                         <div className="col-md-4">
@@ -215,7 +215,7 @@ const Home = () => {
                                 <img src={images['av']} alt="Customer Photo" className="rounded-circle mb-3" width="80" height="80" />
                                 <p className="testimonial-text">"Affordable tools that get the job done!"</p>
                                 <span className="testimonial-rating">★★★★★</span>
-                                <p className="testimonial-name mt-2">- David Lee</p>
+                                <p className="testimonial-name mt-2">- Sravan P</p>
                             </div>
                         </div>
                     </div>

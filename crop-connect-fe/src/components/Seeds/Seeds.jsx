@@ -60,12 +60,7 @@ function Seeds() {
                                 }}>Contact Us</button>
                             </ul>
                         </nav>
-                        <div>
-                            <form className="d-flex">
-                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-outline-light text-black" type="submit">Search</button>
-                            </form>
-                        </div>
+                        
                         <div className="icon d-flex align-items-center">
                             <a href="#" onClick={toggleModal} className="position-relative me-3">
                                 <FontAwesomeIcon icon={faShoppingCart} id='cart-btn' style={{ cursor: 'pointer' }} />
