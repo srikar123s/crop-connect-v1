@@ -62,12 +62,12 @@ function Tools() {
                         </nav>
                        
                         <div className="icon d-flex align-items-center">
-                        <a href="#" onClick={toggleModal} className="position-relative me-3">
+                        <button onClick={toggleModal} className="btn position-relative me-3">
                                 <FontAwesomeIcon icon={faShoppingCart} id='cart-btn' style={{ cursor: 'pointer' }} />
                                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
                                 </span>
-                            </a>
+                            </button>
                             <CartModal
                                 visible={modalVisible}
                                 onClose={toggleModal}
