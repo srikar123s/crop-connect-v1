@@ -23,6 +23,11 @@ function Seeds() {
         setModalVisible(prev => !prev);
     };
 
+
+    const navigateToProductDetail = (product) => {
+        navigate(`/product/${product.id}`, { state: { product } });
+    };
+
     // Effect to set seeds from products data
         useEffect(() => {
         const fetchProducts = async () => {
@@ -77,17 +82,24 @@ function Seeds() {
                 </div>
             </header>
 
-            <div className="rowse">
-                {seeds.map((product) => (
-                        <div className="productse" data-id={product.id} key={product.id}>
-                            <img src={images[product.image]} className="img-fluid" alt={product.name} />
-                            <h2>{product.name}</h2>
-                            <p>{product.description}</p>
-                            <p className="price">{product.price}</p>
-                            <button className="addCart btn btn-secondary me-2" onClick={() => addToCart(product)}>Add to Cart</button>
-                        </div>
-                ))}
-            </div>
+              <div className="rowse">
+            {seeds.map((product) => (
+                <div className="productse" data-id={product.id} key={product.id}>
+                    <img 
+                        src={images[product.image]} 
+                        className="img-fluid" 
+                        alt={product.name} 
+                        onClick={() => navigateToProductDetail(product)} 
+                    />
+                    <h2>{product.name}</h2>
+                    <p>{product.description}</p>
+                    <p className="price">{product.price}</p>
+                    <button className="addCart btn btn-secondary me-2" onClick={() => addToCart(product)}>
+                        Add to Cart
+                    </button>
+                </div>
+            ))}
+        </div>
             <footer class="bg-light text-black text-center py-3">
         <p>&copy; 2024 Crop Connect. All Rights Reserved.</p>
     </footer>

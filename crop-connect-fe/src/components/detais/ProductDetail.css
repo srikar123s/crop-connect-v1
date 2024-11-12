@@ -1,0 +1,39 @@
+.product-detail {
+    display: flex;
+    flex-direction: column;
+    padding-top: 150px;
+}
+
+.dcontainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.product-info {
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-info img {
+    max-width: 200px;
+    margin-right: 20px;
+}
+
+.similar-products .rowse {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.productse {
+    flex: 1 1 200px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
