@@ -72,6 +72,7 @@ function ProductDetail() {
             <nav>
               <ul className="nav">
                 <button className="btn nav-item" onClick={() => navigate('/')}>Home</button>
+                <button className="btn nav-item" onClick={() => navigate('/seeds')}>Seeds</button>
                 <button className="btn nav-item" onClick={() => navigate('/fer')}>Fertilizers</button>
                 <button className="btn nav-item" onClick={() => navigate('/tools')}>Tools</button>
                 <button className="btn nav-item" onClick={() => {
@@ -116,21 +117,30 @@ function ProductDetail() {
         </div>
 
         <section className="similar-products">
-          <h3>Similar Products</h3>
-          <div className="row">
-            {randomSimilarProducts.map((similarProduct) => (
-              <div className="product" data-id={similarProduct._id} key={similarProduct._id}>
-                <img src={images[similarProduct.image]} className="img-fluid" alt={similarProduct.name} />
-                <h2>{similarProduct.name}</h2>
-                <p>{similarProduct.description}</p>
-                <p className="price">{similarProduct.price}</p>
-                <button className="addCart btn btn-secondary" onClick={() => addToCart(similarProduct)}>
-                  Add to Cart
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
+  <h3>Similar Products</h3>
+  <div className="row">
+    {randomSimilarProducts.map((similarProduct) => (
+      <div 
+        className="product" 
+        data-id={similarProduct._id} 
+        key={similarProduct._id}
+        onClick={() => navigate(`/product/${product._id}`, { state: { product: similarProduct } })}
+        style={{ cursor: 'pointer' }}
+      >
+        <img src={images[similarProduct.image]} className="img-fluid" alt={similarProduct.name} />
+        <h2>{similarProduct.name}</h2>
+        <p>{similarProduct.description}</p>
+        <p className="price">{similarProduct.price}</p>
+        <button className="addCart btn btn-secondary" onClick={(e) => {
+          e.stopPropagation(); // Prevent triggering the navigate on button click
+          addToCart(similarProduct);
+        }}>
+          Add to Cart
+        </button>
+      </div>
+    ))}
+  </div>
+</section>
 
         <footer className="bg-light text-black text-center py-3">
           <p>&copy; 2024 Crop Connect. All Rights Reserved.</p>

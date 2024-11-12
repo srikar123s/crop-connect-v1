@@ -23,9 +23,16 @@ function Seeds() {
         setModalVisible(prev => !prev);
     };
 
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    };
 
     const navigateToProductDetail = (product) => {
         navigate(`/product/${product._id}`, { state: { product } });
+        scrollToTop();
     };
 
     // Effect to set seeds from products data

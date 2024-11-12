@@ -57,6 +57,12 @@ const Home = () => {
             behavior: "smooth"
         });
     };
+   
+    const navigateToProductDetail = (product) => {
+        navigate(`/product/${product._id}`, { state: { product } });
+        scrollToTop();
+    };
+
 
     useEffect(() => {
         window.addEventListener("scroll", toggleVisibility);
@@ -148,7 +154,12 @@ const Home = () => {
                     {bestSellers.map((product) => (
                         <div className="col-md-4" key={product._id}>
                             <div className="product" data-id={product._id}>
-                                <img src={images[product.image]} className="img-fluid" alt={product.name} />
+                            <img 
+                        src={images[product.image]} 
+                        className="img-fluid" 
+                        alt={product.name} 
+                        onClick={() => navigateToProductDetail(product)} 
+                    />
                                 <h2>{product.name}</h2>
                                 <p>{product.description}</p>
                                 <p className="price">{product.price}</p>

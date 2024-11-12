@@ -23,8 +23,16 @@ function Tools() {
         setModalVisible(prev => !prev);
     };
 
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    };
+
     const navigateToProductDetail = (product) => {
         navigate(`/product/${product._id}`, { state: { product } });
+        scrollToTop();
     };
 
 

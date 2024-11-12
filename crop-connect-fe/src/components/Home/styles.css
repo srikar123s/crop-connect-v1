@@ -96,7 +96,10 @@ body {
 .row {
     display: flex;
     justify-content: space-between; /* Space between categories */
+    max-width: 100%;
+    flex-wrap: wrap;
 }
+
 
 .category {
     flex: 1; /* Makes categories take equal width */
