@@ -643,7 +643,13 @@ function Check() {
 
                     <div class="customer-support">
                         <div id="support-text">Need help? Contact our customer support team.</div>
-                        <button id="support-btn">Support</button>
+                        <button id="support-btn" onClick={() => {
+                                    navigate('/#contact');
+                                    setTimeout(() => {
+                                        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                                    }, 200);
+                                }}>Support</button>
+                        
                     </div>
 
 
