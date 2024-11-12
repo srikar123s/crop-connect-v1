@@ -35,13 +35,49 @@ function Check() {
     });
 
 
+    const [suggestions, setSuggestions] = useState([]);
+    const apiKey = "whPX3G7QEWtqSJqH4DQWTmM3_PgZk7aRR39hIH1GyIc";
+
+    // Handle input change for form fields
     const handleInputChange = (e) => {
         const { id, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [id]: value
+        setFormData((prevData) => ({
+            ...prevData,
+            [id]: value,
         }));
+
+        // Trigger autocomplete for address
+        if (id === "address" && value.length >= 3) {
+            fetchSuggestions(value);
+        }
     };
+
+    // Fetch suggestions from HERE Autocomplete API
+    const fetchSuggestions = async (query) => {
+        const url = `https://autocomplete.search.hereapi.com/v1/autocomplete?q=${encodeURIComponent(query)}&apiKey=${apiKey}`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            setSuggestions(data.items);
+        } catch (error) {
+            console.error("Error fetching address suggestions:", error);
+        }
+    };
+
+    // Handle selection of address suggestion
+    const handleSuggestionClick = (address) => {
+        setFormData({
+            ...formData,
+            address: address.street || "",
+            area: address.street  || "",
+            town: address.city || "",
+            state: address.state || "",
+            pincode: address.postalCode || "",
+        });
+        setSuggestions([]); // Clear suggestions after selection
+    };
+
+  
 
 
 
@@ -60,7 +96,7 @@ function Check() {
         const priceMatch = item.price.match(/₹(\d+)/);
         const price = priceMatch ? parseInt(priceMatch[1], 10) : null;
         return total + price * item.quantity;
-       
+
     }, 0);
     const deliveryCharge = totalAmount >= 1000 || cartItems.length < 1 ? 0 : 50;
     useEffect(() => {
@@ -182,7 +218,7 @@ function Check() {
     const handlePaymentSelection = (event) => {
         setSelectedPaymentMethod(event.target.value);
     };
-    
+
 
     function proceedToPayment() {
         if (validateForm()) {
@@ -253,10 +289,10 @@ function Check() {
 
     // Send the order details to the backend to save order and send WhatsApp message
     const handleOrder = () => {
-         // Set delivery date 3 days from now
-         const deliveryDate = new Date();
-         deliveryDate.setDate(deliveryDate.getDate() + 3);
- 
+        // Set delivery date 3 days from now
+        const deliveryDate = new Date();
+        deliveryDate.setDate(deliveryDate.getDate() + 3);
+
         // Generate a random order number
         const newOrderNumber = Math.floor(10000000 + Math.random() * 90000000).toString();
         setOrderNumber(newOrderNumber);
@@ -272,7 +308,7 @@ function Check() {
         }));
 
         const order = {
-            "email":localStorage.getItem('user'),
+            "email": localStorage.getItem('user'),
             "orderId": orderNumber,
             "orderDate": new Date(),
             "deliveryDate": deliveryDate.toDateString(),
@@ -295,14 +331,14 @@ function Check() {
                 });
             })
             .then(response => {
-                
+
                 toggleModal();
             })
             .catch(error => {
                 console.error('Error:', error);
-                
+
             });
-            
+
     };
 
 
@@ -346,15 +382,15 @@ function Check() {
                     </div>
 
                     <div class="checkout-layout">
-                        <div class="checkout-form">
+                        <div className="checkout-form">
                             <h2>Shipping Information</h2>
                             <form id="checkout-form" onSubmit={(e) => e.preventDefault()}>
-                                <label for="country">Country/Region</label>
+                                <label htmlFor="country">Country/Region</label>
                                 <select id="country" required>
                                     <option value="India" selected>India</option>
                                 </select>
 
-                                <label for="name">Full Name (First and Last Name)</label>
+                                <label htmlFor="name">Full Name (First and Last Name)</label>
                                 <input
                                     type="text"
                                     id="name"
@@ -363,7 +399,7 @@ function Check() {
                                     required
                                 />
 
-                                <label for="mobile">Mobile Number</label>
+                                <label htmlFor="mobile">Mobile Number</label>
                                 <input
                                     type="tel"
                                     id="mobile"
@@ -374,7 +410,7 @@ function Check() {
                                     pattern="[0-9]{10}"
                                 />
 
-                                <label for="pincode">Pincode</label>
+                                <label htmlFor="pincode">Pincode</label>
                                 <input
                                     type="text"
                                     id="pincode"
@@ -384,24 +420,54 @@ function Check() {
                                     placeholder="6-digit PIN code"
                                 />
 
-                                <label for="address">Flat, House no., Building, Company, Apartment</label>
-                                <input type="text" id="address" value={formData.address}
-                                    onChange={handleInputChange} required />
+                                <label htmlFor="address">Flat, House no., Building, Company, Apartment</label>
+                                <input
+                                    type="text"
+                                    id="address"
+                                    value={formData.address}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                                {/* Display Suggestions */}
+                                {suggestions.length > 0 && (
+                                    <ul>
+                                        {suggestions.map((item, index) => (
+                                            <li key={index} onClick={() => handleSuggestionClick(item.address)}>
+                                                {item.address.label}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
 
-                                <label for="area">Area, Street, Sector, Village</label>
-                                <input type="text" id="area" value={formData.area}
-                                    onChange={handleInputChange} required />
+                                <label htmlFor="area">Area, Street, Sector, Village</label>
+                                <input
+                                    type="text"
+                                    id="area"
+                                    value={formData.area}
+                                    onChange={handleInputChange}
+                                    required
+                                />
 
-                                <label for="landmark">Landmark</label>
-                                <input type="text" id="landmark" value={formData.landmark}
-                                    onChange={handleInputChange} placeholder="E.g. near Apollo Hospital" />
+                                <label htmlFor="landmark">Landmark</label>
+                                <input
+                                    type="text"
+                                    id="landmark"
+                                    value={formData.landmark}
+                                    onChange={handleInputChange}
+                                    placeholder="E.g. near Apollo Hospital"
+                                />
 
-                                <label for="town">Town/City</label>
-                                <input type="text" id="town" value={formData.town}
-                                    onChange={handleInputChange} required />
+                                <label htmlFor="town">Town/City</label>
+                                <input
+                                    type="text"
+                                    id="town"
+                                    value={formData.town}
+                                    onChange={handleInputChange}
+                                    required
+                                />
 
-                                <label for="state">State</label>
-                                <select id="state" required>
+                                <label htmlFor="state">State</label>
+                                <select id="state" value={formData.state} onChange={handleInputChange} required>
                                     <option value="" disabled selected>Choose a state</option>
                                     <option value="Andhra Pradesh">Andhra Pradesh</option>
                                     <option value="Maharashtra">Maharashtra</option>
@@ -409,8 +475,9 @@ function Check() {
                                     <option value="Tamil Nadu">Tamil Nadu</option>
                                 </select>
 
-                                <button type="button" id="proceed-button" onClick={() => proceedToPayment()}>Proceed to Payment</button>
-
+                                <button type="button" id="proceed-button" onClick={proceedToPayment}>
+                                    Proceed to Payment
+                                </button>
                             </form>
                         </div>
 
@@ -483,7 +550,7 @@ function Check() {
                         <h2> Payment Method</h2>
 
                         <div class="payment-method">
-                            <input type="radio" id="credit-debit" name="payment" value="credit-debit" onChange={handlePaymentSelection}/>
+                            <input type="radio" id="credit-debit" name="payment" value="credit-debit" onChange={handlePaymentSelection} />
                             <label for="credit-debit">Credit or debit card <br />
                                 <img src={images['visa']} alt="Visa" width="30" />
                                 <img src={images['master']} alt="MasterCard" width="30" />
@@ -492,7 +559,7 @@ function Check() {
                         </div>
                         <br />
                         <div class="payment-method">
-                            <input type="radio" id="net-banking" name="payment" value="net-banking" onChange={handlePaymentSelection}/>
+                            <input type="radio" id="net-banking" name="payment" value="net-banking" onChange={handlePaymentSelection} />
                             <label for="net-banking">Net Banking <br />
                                 <img src={images['ic']} alt="ICICI Bank" width="30" />
                                 <img src={images['hd']} alt="HDFC Bank" width="30" />
@@ -502,7 +569,7 @@ function Check() {
                         </div>
                         <br />
                         <div class="payment-method">
-                            <input type="radio" id="wallet" name="payment" value="wallet" onChange={handlePaymentSelection}/>
+                            <input type="radio" id="wallet" name="payment" value="wallet" onChange={handlePaymentSelection} />
                             <label for="wallet">Wallet <br />
                                 <img src={images['pap']} alt="Paytm" width="30" />
                                 <img src={images['pp']} alt="PhonePe" width="30" />
@@ -511,7 +578,7 @@ function Check() {
                         </div>
                         <br />
                         <div class="payment-method">
-                            <input type="radio" id="cod" name="payment" value="cod" onChange={handlePaymentSelection}/>
+                            <input type="radio" id="cod" name="payment" value="cod" onChange={handlePaymentSelection} />
                             <label for="net-banking">Cash On Delivery <br />
                                 <img src={images['cod']} alt="cod" width="30" />
 

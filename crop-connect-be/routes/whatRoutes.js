@@ -17,7 +17,7 @@ router.post('/send-whatsapp', async (req, res) => {
         const { phoneNumber, orderId, orderDate, deliveryDate, orderItems } = req.body;
 
         // Construct the order items list
-        let itemsList = orderItems.map(item => `${item.name} - ${item.quantity} x $${item.price}`).join('\n');
+        let itemsList = orderItems.map(item => `${item.name} - ${item.quantity} x ${item.price}`).join('\n');
         // Construct the message body
         const messageBody = `\nOrder conformation from Crop Connect\nOrder ID: ${orderId}\nOrder Date: ${orderDate}\nExpected Delivery Date: ${deliveryDate}\n\nItems:\n${itemsList}\n\nThank you for your purchase!`;
 
