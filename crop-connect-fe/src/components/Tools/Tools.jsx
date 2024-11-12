@@ -23,6 +23,10 @@ function Tools() {
         setModalVisible(prev => !prev);
     };
 
+    const navigateToProductDetail = (product) => {
+        navigate(`/product/${product._id}`, { state: { product } });
+    };
+
 
     // Effect to set seeds from products data
       useEffect(() => {
@@ -80,12 +84,19 @@ function Tools() {
             <div className="rowse">
                 {tools.map((product) => (
                         <div className="productse" data-id={product.id} key={product.id}>
-                            <img src={images[product.image]} className="img-fluid" alt={product.name} />
-                            <h2>{product.name}</h2>
-                            <p>{product.description}</p>
-                            <p className="price">{product.price}</p>
-                            <button className="addCart btn btn-secondary me-2" onClick={() => addToCart(product)}>Add to Cart</button>
-                        </div>
+                        <img 
+                            src={images[product.image]} 
+                            className="img-fluid" 
+                            alt={product.name} 
+                            onClick={() => navigateToProductDetail(product)} 
+                        />
+                        <h2>{product.name}</h2>
+                        <p>{product.description}</p>
+                        <p className="price">{product.price}</p>
+                        <button className="addCart btn btn-secondary me-2" onClick={() => addToCart(product)}>
+                            Add to Cart
+                        </button>
+                    </div>
                 ))}
             </div>
             <footer class="bg-light text-black text-center py-3">

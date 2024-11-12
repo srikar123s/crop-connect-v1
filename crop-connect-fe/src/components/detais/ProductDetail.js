@@ -13,47 +13,53 @@ function ProductDetail() {
   const navigate = useNavigate();
   const location = useLocation();
   const { cartItems, addToCart } = useContext(CartContext);
-
   const [modalVisible, setModalVisible] = useState(false);
-  const [similarProducts, setSimilarProducts] = useState([]);  // Add a state for similar products
+  const [similarProducts, setSimilarProducts] = useState([]);  // Store similar products here
+  const [randomSimilarProducts, setRandomSimilarProducts] = useState([]); // State for random similar products
   const product = location.state?.product;
 
+  // Fetch similar products only once when the product is loaded
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/products/");
-        // Now set similar products
-        const products = response.data.filter(item => 
-          item.category === product?.category && item._id !== product?._id
-        );
-        setSimilarProducts(products);
-      } catch (error) {
-        console.error("Error fetching products:", error);
+    const fetchSimilarProducts = async () => {
+      if (product) {
+        try {
+          const response = await axios.get("http://localhost:5000/api/products/");
+          // Filter products based on category and exclude the current product
+          const similar = response.data.filter(item =>
+            item.category === product?.category && item._id !== product?._id
+          );
+          setSimilarProducts(similar);  // Set the similar products once
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
       }
     };
 
-    if (product) {  // Ensure `product` is defined before calling the API
-      fetchProducts();
+    fetchSimilarProducts(); // Fetch once when the product is available
+  }, [product]); // Depend only on `product`
+
+  // Generate random similar products only when similarProducts changes
+  useEffect(() => {
+    const getRandomProducts = (products, num) => {
+      const shuffled = [...products].sort(() => Math.random() - 0.5);  // Shuffle the array
+      return shuffled.slice(0, num);  // Return the first `num` products
+    };
+
+    if (similarProducts.length > 0) {
+      const randomProducts = getRandomProducts(similarProducts, 6); // Get random products
+      setRandomSimilarProducts(randomProducts); // Set the random similar products
     }
-  }, [product]);  // Add `product` as dependency so the effect reruns when it changes
+  }, [similarProducts]); // Depend on `similarProducts`
 
   // Toggle modal visibility
   const toggleModal = () => {
     setModalVisible(prev => !prev);
   };
 
-  // Check if product is defined
+  // If product is not available, show the modal
   if (!product) {
     return <CartModal visible={modalVisible} onClose={toggleModal} />;
   }
-
-  // Function to shuffle array and pick the first `num` items
-  const getRandomProducts = (products, num) => {
-    const shuffled = [...products].sort(() => Math.random() - 0.5);  // Shuffle the array
-    return shuffled.slice(0, num);  // Return the first `num` products
-  };
-
-  const randomSimilarProducts = getRandomProducts(similarProducts, 6);  // Get random products
 
   return (
     <div>
@@ -77,7 +83,7 @@ function ProductDetail() {
               </ul>
             </nav>
             <div className="icon d-flex align-items-center">
-              <a href="#" onClick={toggleModal} className="position-relative me-3">
+              <a onClick={toggleModal} className="btn position-relative me-3" >
                 <FontAwesomeIcon icon={faShoppingCart} id='cart-btn' style={{ cursor: 'pointer' }} />
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                   {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
@@ -90,19 +96,21 @@ function ProductDetail() {
       </header>
 
       <div className="product-detail">
-        <div>
-          <button onClick={() => navigate(-1)}>Back</button>
-        </div>
-        <div className="container">
-          <div className="product-info">
-            <img src={images[product.image]} className="img-fluid" alt={product.name} />
-            <div>
-              <h2>{product.name}</h2>
-              <p>{product.description}</p>
-              <p className="price">{product.price}</p>
-              <button className="addCart btn btn-secondary me-2" onClick={() => addToCart(product)}>
-                Add to Cart
-              </button>
+        <div className="mcontainer">
+          <div className="back">
+            <button onClick={() => navigate(-1)} className="btn btn-secondary">Back</button>
+          </div>
+          <div className="dcontainer">
+            <div className="product-info">
+              <img src={images[product.image]} className="img-fluid" alt={product.name} />
+              <div>
+                <h2>{product.name}</h2>
+                <p>{product.description}</p>
+                <p className="price">{product.price}</p>
+                <button className="addCart btn btn-secondary me-2" onClick={() => addToCart(product)}>
+                  Add to Cart
+                </button>
+              </div>
             </div>
           </div>
         </div>

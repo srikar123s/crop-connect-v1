@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CartModal from '../commons/CartModal';
@@ -11,14 +11,17 @@ import { CartContext } from '../../context/CartContext';
 import axios from 'axios';
 function Fer() {
     const navigate = useNavigate();
-    const { cartItems,addToCart, changeQuantity, removeItem, clearCart } = useContext(CartContext);
+    const { cartItems, addToCart, changeQuantity, removeItem, clearCart } = useContext(CartContext);
     const [modalVisible, setModalVisible] = useState(false);
     const [fer, setFer] = useState([]); // Added seeds state
 
-    
+
     // Toggle modal visibility
     const toggleModal = () => {
         setModalVisible(prev => !prev);
+    };
+    const navigateToProductDetail = (product) => {
+        navigate(`/product/${product._id}`, { state: { product } });
     };
 
     useEffect(() => {
@@ -56,7 +59,7 @@ function Fer() {
                                 }}>Contact Us</button>
                             </ul>
                         </nav>
-                        
+
                         <div className="icon d-flex align-items-center">
                             <button onClick={toggleModal} className="btn position-relative me-3">
                                 <FontAwesomeIcon icon={faShoppingCart} id='cart-btn' style={{ cursor: 'pointer' }} />
@@ -67,7 +70,7 @@ function Fer() {
                             <CartModal
                                 visible={modalVisible}
                                 onClose={toggleModal}
-                                
+
                             />
                         </div>
                     </div>
@@ -76,18 +79,25 @@ function Fer() {
 
             <div className="rowse">
                 {fer.map((product) => (
-                        <div className="productse" data-id={product.id} key={product.id}>
-                            <img src={images[product.image]} className="img-fluid" alt={product.name} />
-                            <h2>{product.name}</h2>
-                            <p>{product.description}</p>
-                            <p className="price">{product.price}</p>
-                            <button className="addCart btn btn-secondary me-2" onClick={() => addToCart(product)}>Add to Cart</button>
-                        </div>
+                    <div className="productse" data-id={product.id} key={product.id}>
+                        <img
+                            src={images[product.image]}
+                            className="img-fluid"
+                            alt={product.name}
+                            onClick={() => navigateToProductDetail(product)}
+                        />
+                        <h2>{product.name}</h2>
+                        <p>{product.description}</p>
+                        <p className="price">{product.price}</p>
+                        <button className="addCart btn btn-secondary me-2" onClick={() => addToCart(product)}>
+                            Add to Cart
+                        </button>
+                    </div>
                 ))}
             </div>
             <footer class="bg-light text-black text-center py-3">
-        <p>&copy; 2024 Crop Connect. All Rights Reserved.</p>
-    </footer>
+                <p>&copy; 2024 Crop Connect. All Rights Reserved.</p>
+            </footer>
 
         </div>
     );
