@@ -25,7 +25,7 @@ function Seeds() {
 
 
     const navigateToProductDetail = (product) => {
-        navigate(`/product/${product.id}`, { state: { product } });
+        navigate(`/product/${product._id}`, { state: { product } });
     };
 
     // Effect to set seeds from products data

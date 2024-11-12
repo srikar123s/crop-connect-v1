@@ -15,7 +15,6 @@ function ProductDetail() {
   const { cartItems, addToCart } = useContext(CartContext);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [seeds, setSeeds] = useState([]);
   const [similarProducts, setSimilarProducts] = useState([]);  // Add a state for similar products
   const product = location.state?.product;
 
@@ -23,14 +22,11 @@ function ProductDetail() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/products/");
-        const filteredSeeds = response.data.filter(product => product.category === 'Seeds');
-        setSeeds(filteredSeeds);
-
         // Now set similar products
-        const similarProducts = response.data.filter(item => 
-          item.category === product?.category && item.id !== product?.id
+        const products = response.data.filter(item => 
+          item.category === product?.category && item._id !== product?._id
         );
-        setSimilarProducts(similarProducts);
+        setSimilarProducts(products);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -115,7 +111,7 @@ function ProductDetail() {
           <h3>Similar Products</h3>
           <div className="row">
             {randomSimilarProducts.map((similarProduct) => (
-              <div className="product" data-id={similarProduct.id} key={similarProduct.id}>
+              <div className="product" data-id={similarProduct._id} key={similarProduct._id}>
                 <img src={images[similarProduct.image]} className="img-fluid" alt={similarProduct.name} />
                 <h2>{similarProduct.name}</h2>
                 <p>{similarProduct.description}</p>
