@@ -4,7 +4,7 @@ const twilio = require('twilio');
 
 // Twilio credentials
 const accountSid = "ACe5e29740404f11c253d59ba61a3fb1c7";
-const authToken = "2115eb513fed50ffac36fc29af497578";
+const authToken = "f5e2aeacdc6e92869c50ab97a0cb0cb1";
 const client = twilio(accountSid, authToken);
 
 // WhatsApp Number (Twilio WhatsApp sandbox number or purchased number)
