@@ -200,13 +200,19 @@ function Check() {
 
     function makePayment() {
         const selectedPayment = document.querySelector('input[name="payment"]:checked');
+        
         if (!selectedPayment) {
-            alert('Please select a payment method.');
-            return;
+            // Show an alert if no payment method is selected
+            alert('Please select a payment method to proceed.');
+            return;  // Stop further execution if no payment method is selected
         }
+        
+        // Proceed to the next section if a payment method is selected
         setShowPaymentMethods(false);
         setShowReviewSection(true);
     }
+    
+    
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -253,23 +259,29 @@ function Check() {
 
     function makePayment() {
         // Verify payment method is selected
-        if (selectedPaymentMethod) {
-            setShowReviewSection(true); // Show the review section
-        } else {
-            alert('Please select a payment method');
-        }
-        // Hide payment methods section
-        const paymentMethods = document.getElementById('payment-methods');
-        if (paymentMethods) {
-            paymentMethods.style.display = 'none';
-        }
+        const selectedPayment = document.querySelector('input[name="payment"]:checked');
+    
+    // Verify if a payment method is selected
+    if (!selectedPayment) {
+        alert('Please select a payment method to proceed.');
+        return;  // Stop further execution if no payment method is selected
+    }
 
-        // Show review section
-        const reviewSection = document.getElementById('review-section');
-        if (reviewSection) {
-            reviewSection.style.display = 'block';
-            scrollToTop();
-        }
+    // Proceed to hide payment methods and show review section
+    setShowPaymentMethods(false);
+    setShowReviewSection(true);
+
+    // Update display of payment and review sections
+    const paymentMethods = document.getElementById('payment-methods');
+    if (paymentMethods) {
+        paymentMethods.style.display = 'none';
+    }
+
+    const reviewSection = document.getElementById('review-section');
+    if (reviewSection) {
+        reviewSection.style.display = 'block';
+        scrollToTop();  // Scroll to the top if needed
+    }
 
         // Populate order summary with images
         const orderSummaryItems = document.getElementById('order-summary-items');
