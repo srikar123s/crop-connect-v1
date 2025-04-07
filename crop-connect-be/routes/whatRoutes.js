@@ -3,12 +3,12 @@ const router = express.Router();
 const twilio = require('twilio');
 
 // Twilio credentials
-const accountSid = "ACe5e29740404f11c253d59ba61a3fb1c7";
-const authToken = "051c9726c93c4022d6610ac486d2e854";
+//const accountSid = "ACe5e29740404f11c253d59ba61a3fb1c7";
+//const authToken = "051c9726c93c4022d6610ac486d2e854";
 const client = twilio(accountSid, authToken);
 
 // WhatsApp Number (Twilio WhatsApp sandbox number or purchased number)
-const fromWhatsAppNumber = '+12523084794';
+const fromWhatsAppNumber = '+12544544109';
 
 // Endpoint to send WhatsApp message
 router.post('/send-whatsapp', async (req, res) => {
@@ -19,8 +19,8 @@ router.post('/send-whatsapp', async (req, res) => {
         // Construct the order items list
         let itemsList = orderItems.map(item => `${item.name} - ${item.quantity} x ${item.price}`).join('\n');
         // Construct the message body
-        const messageBody = `\nOrder conformation from Crop Connect\nOrder ID: ${orderId}\nOrder Date: ${orderDate}\nExpected Delivery Date: ${deliveryDate}\n\nItems:\n${itemsList}\n\nThank you for your purchase!`;
-
+       // const messageBody = `\nOrder conformation from Crop Connect\nOrder ID: ${orderId}\nOrder Date: ${orderDate}\nExpected Delivery Date: ${deliveryDate}\n\nItems:\n${itemsList}\n\nThank you for your purchase!`;
+       const messageBody = `\nOrder conformation from Crop Connect\n\nExpected Delivery Date: ${deliveryDate}\nItems:\n${itemsList}\nThank you for your purchase!`;
         // Sending message
         const message = await client.messages.create({
             body: messageBody,

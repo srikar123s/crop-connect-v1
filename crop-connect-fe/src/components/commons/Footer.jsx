@@ -35,26 +35,26 @@ const Footer = () => {
 
                 {/* Embedded Google Map */}
                 <div className="footer-map" >
-                <a href={mapUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'white'  }}>
-                <h4>Our Location</h4>
+                    <a href={mapUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'white' }}>
+                        <h4>Our Location</h4>
 
-
-                      <iframe
-                            src={`https://image.maps.ls.hereapi.com/mia/1.6/mapview?apiKey=whPX3G7QEWtqSJqH4DQWTmM3_PgZk7aRR39hIH1GyIc&c=12.9716,79.1589&z=16`}
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3890.506227445828!2d79.1589!3d12.9716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1712299650000!5m2!1sen!2sin"
                             width="100%"
                             height="250"
                             style={{
-
                                 border: 'none',
                                 borderRadius: '10px',
                                 objectFit: 'contain',
+                                transition: 'transform 0.3s ease',
                             }}
-                            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-                            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+                            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
                             allowFullScreen
                             loading="lazy"
-                        ></iframe>
-               </a>
+                        />
+
+                    </a>
                 </div>
 
             </div>

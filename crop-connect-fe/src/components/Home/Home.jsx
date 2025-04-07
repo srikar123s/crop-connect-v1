@@ -5,7 +5,7 @@ import './styles.css';
 import CartModal from '../commons/CartModal';
 import images from '../../Images'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faUser, faTrash, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faUser, faTrash, faShoppingBag,faLeaf } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Footer from '../commons/Footer';
 import { Link } from 'react-router-dom';
@@ -57,7 +57,7 @@ const Home = () => {
             behavior: "smooth"
         });
     };
-   
+
     const navigateToProductDetail = (product) => {
         navigate(`/product/${product._id}`, { state: { product } });
         scrollToTop();
@@ -86,7 +86,7 @@ const Home = () => {
                                 <li className="nav-item"><a href="#contact" className="nav-link text-black">Contact Us</a></li>
                             </ul>
                         </nav>
-                       
+
                         <div className="icon d-flex align-items-center">
                             <a href="#" onClick={toggleModal} className="position-relative me-3" >
                                 <FontAwesomeIcon icon={faShoppingCart} id='cart-btn' style={{ cursor: 'pointer' }} />
@@ -102,9 +102,14 @@ const Home = () => {
                                 <FontAwesomeIcon icon={faUser} id="login-btn" style={{ cursor: 'pointer' }} />
                             </button>
                             <button className="btn nav-item" onClick={() => { navigate('/weather') }}>
-                                <FontAwesomeIcon icon={faCloudSun} /> 
+                                <FontAwesomeIcon icon={faCloudSun} />
                             </button>
-                            
+
+                            <button className="btn nav-item" onClick={() => { navigate('/plant-detector') }}>
+                                <FontAwesomeIcon icon={faLeaf} /> {/* You can also use faMicroscope or faBug */}
+                            </button>
+
+
                         </div>
                     </div>
                 </div>
@@ -154,12 +159,12 @@ const Home = () => {
                     {bestSellers.map((product) => (
                         <div className="col-md-4" key={product._id}>
                             <div className="product" data-id={product._id}>
-                            <img 
-                        src={images[product.image]} 
-                        className="img-fluid" 
-                        alt={product.name} 
-                        onClick={() => navigateToProductDetail(product)} 
-                    />
+                                <img
+                                    src={images[product.image]}
+                                    className="img-fluid"
+                                    alt={product.name}
+                                    onClick={() => navigateToProductDetail(product)}
+                                />
                                 <h2>{product.name}</h2>
                                 <p>{product.description}</p>
                                 <p className="price">{product.price}</p>

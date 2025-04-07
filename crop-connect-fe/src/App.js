@@ -10,6 +10,7 @@ import Check from './components/Checkout/Check';
 import NoPage from './components/NoPage/NoPage';
 import WeatherForecast from './components/Weather/Weather';
 import ProductDetail from './components/detais/ProductDetail';
+import PlantDetector from './components/pred/det';
 
 function App() {
  
@@ -24,7 +25,7 @@ function App() {
           <Route path="tools" element={<Tools />} />
           <Route path="check" element={<Check />} />          
           <Route path="weather" element={<WeatherForecast />} />
-          
+          <Route path="plant-detector" element={<PlantDetector />} />
           <Route path="/product/:id" element={<ProductDetail/>} />
           <Route path="*" element={<NoPage />} />
         </Routes>

@@ -6,6 +6,7 @@ const productRoutes = require('./routes/productRoutes');
 const userRoutes =  require('./routes/auth');
 const orderRoutes = require('./routes/orderRoutes');
 const whatRoutes = require('./routes/whatRoutes');
+
 dotenv.config();
 connectDB();
 
@@ -18,6 +19,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/auth',  userRoutes);
 app.use('/api/orders',orderRoutes);
 app.use('/api/twilio',whatRoutes);
+
+
 
 
 module.exports = app;
