@@ -59,7 +59,7 @@ const WeatherForecast = () => {
                 <button className="btn nav-item" onClick={() => {
                   navigate('/#benefits');
                   setTimeout(() => {
-                    document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                    document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' });
                   }, 100);
                 }}>Features</button>
                 <button className="btn nav-item" onClick={() => {
