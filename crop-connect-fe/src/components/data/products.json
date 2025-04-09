@@ -34,7 +34,7 @@
         "description": "High-quality seeds for sweet and crunchy bell peppers in various colors.",
         "price": "₹160 per kg",
         "category": "Seeds",
-        "tag" : "best"
+        "tag": "best"
     },
     {
         "id": 5,
@@ -89,7 +89,7 @@
         "description": "Premium seeds for vibrant sunflowers with high oil content.",
         "price": "₹200 per kg",
         "category": "Seeds",
-        "tag" : "best"
+        "tag": "best"
     },
     {
         "id": 11,
@@ -99,7 +99,7 @@
         "description": "High-quality seeds for growing healthy and flavorful brinjals.",
         "price": "₹150 per kg",
         "category": "Seeds",
-        "tag" : "best"
+        "tag": "best"
     },
     {
         "id": 12,
@@ -154,7 +154,7 @@
         "description": "Controls weeds and promotes healthy crop growth.",
         "price": "₹449 per liter",
         "category": "Fertilizers",
-        "tag" : "best"
+        "tag": "best"
     },
     {
         "id": 18,
@@ -173,7 +173,7 @@
         "description": "Eco-friendly fertilizer to boost plant growth naturally.",
         "price": "₹299 per bag",
         "category": "Fertilizers",
-        "tag" : "best"
+        "tag": "best"
     },
     {
         "id": 20,
@@ -210,7 +210,7 @@
         "description": "Provides essential nitrogen for healthy plant growth.",
         "price": "₹749 per bag (50 kg)",
         "category": "Fertilizers",
-        "tag" : "best"
+        "tag": "best"
     },
     {
         "id": 24,
@@ -280,7 +280,7 @@
         "description": "Powerful earth auger for efficient digging of holes for planting trees and posts.",
         "price": "₹8000",
         "category": "Tools",
-        "tag" : "best"
+        "tag": "best"
     },
     {
         "id": 32,
@@ -290,7 +290,7 @@
         "description": "Efficient sprayer for applying pesticides and fertilizers over large areas.",
         "price": "₹9599",
         "category": "Tools",
-        "tag" : "best"
+        "tag": "best"
     },
     {
         "id": 33,
@@ -318,7 +318,7 @@
         "description": "Precision tool for accurate and fast seed planting for large fields.",
         "price": "₹25999",
         "category": "Tools",
-        "tag" : "best"        
+        "tag": "best"
     },
     {
         "id": 36,
@@ -328,5 +328,87 @@
         "description": "Strong and durable wheelbarrow for transporting materials easily.",
         "price": "₹7999",
         "category": "Tools"
-    }
+    },
+    [
+        {
+            "name": "Captan 50% WP - 500gm",
+            "description": "Fungicide used to control fungal diseases like leaf spot, blight, and fruit rot.",
+            "price": "₹350",
+            "category": "Fertilizers",
+            "image": "captaf",
+            "alt": "Captan Fungicide"
+        },
+        {
+            "name": "Copper Oxychloride 50% WP - 750gm",
+            "description": "Broad-spectrum fungicide for bacterial and fungal diseases like citrus canker and downy mildew.",
+            "price": "₹280",
+            "category": "Fertilizers",
+            "image": "coc",
+            "alt": "Copper Oxychloride"
+        },
+        {
+            "name": "Propiconazole 25% EC",
+            "description": "Systemic fungicide effective against rusts, powdery mildew, and sheath blight.",
+            "price": "₹450",
+            "category": "Fertilizers",
+            "image": "propi",
+            "alt": "Propiconazole Fungicide"
+        },
+        {
+            "name": "Mancozeb 75% WP - 750 gm",
+            "description": "Contact fungicide for a wide range of fungal diseases like early and late blight.",
+            "price": "₹300",
+            "category": "Fertilizers",
+            "image": "manco",
+            "alt": "Mancozeb Fungicide"
+        },
+        {
+            "name": "Carbendazim 50% WP -500gm",
+            "description": "Systemic fungicide used to treat fungal leaf and root diseases such as anthracnose and damping-off.",
+            "price": "₹250",
+            "category": "Fertilizers",
+            "image": "carb",
+            "alt": "Carbendazim Fungicide"
+        },
+        {
+            "name": "Chlorothalonil 75% WP - 750gm",
+            "description": "Broad-spectrum fungicide used against rust, leaf spot, and blight diseases.",
+            "price": "₹325",
+            "category": "Fertilizers",
+            "image": "chloro",
+            "alt": "Chlorothalonil Fungicide"
+        },
+        {
+            "name": "Streptocycline 0.01% - 5gm",
+            "description": "Antibiotic for bacterial infections like bacterial blight and canker.",
+            "price": "₹90",
+            "category": "Fertilizers",
+            "image": "strepo",
+            "alt": "Streptocycline Antibiotic"
+        },
+        {
+            "name": "Imidacloprid 17.8% SL",
+            "description": "Systemic insecticide effective against sucking insects like aphids, jassids, and whiteflies.",
+            "price": "₹400",
+            "category": "Fertilizers",
+            "image": "mida",
+            "alt": "Imidacloprid Insecticide"
+        },
+        {
+            "name": "Myclobutanil 10% WP",
+            "description": "Fungicide effective against powdery mildew and other fungal infections.",
+            "price": "₹370",
+            "category": "Fertilizers",
+            "image": "myc",
+            "alt": "Myclobutanil Fungicide"
+        },
+        {
+            "name": "Sulfur 80% WP",
+            "description": "Fungicide and miticide used for powdery mildew, scab, and mites.",
+            "price": "₹180",
+            "category": "Fertilizers",
+            "image": "sulf",
+            "alt": "Sulfur Fungicide"
+        }
+    ]
 ]
