@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import images from '../../Images';
+import Chatbot from '../pred/chatbot'; // Make sure this path is correct
 
 const PlantDisease = () => {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showChatbot, setShowChatbot] = useState(false);
   const navigate = useNavigate();
 
   const diseaseInfoMap = {
@@ -126,13 +128,11 @@ const PlantDisease = () => {
       treatment: "Remove infected berries. Ensure good airflow.",
       pesticide: "Myclobutanil 10% WP – 1L in 500L water per 1 acres."
     },
-
     "default": {
       treatment: "Keep plant surroundings clean and dry. Prune regularly.",
       pesticide: "Consult local agriculture officer for specific pesticide recommendation."
     }
   };
-
 
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -245,6 +245,33 @@ const PlantDisease = () => {
           </div>
         )}
       </div>
+
+      {/* Chatbot Floating Button */}
+      <button
+        className="btn btn-primary"
+        onClick={() => setShowChatbot(!showChatbot)}
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          borderRadius: "50%",
+          width: "60px",
+          height: "60px",
+          fontSize: "1.5rem",
+          zIndex: 1000
+        }}
+      >
+        💬
+      </button>
+
+      {/* Chatbot Component */}
+      {showChatbot && (
+        <div >
+          {showChatbot && <Chatbot onClose={() => setShowChatbot(false)} />}
+
+
+        </div>
+      )}
     </div>
   );
 };
