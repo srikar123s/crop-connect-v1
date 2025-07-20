@@ -3,8 +3,8 @@ const router = express.Router();
 const twilio = require('twilio');
 
 // Twilio credentials
-//const accountSid = "ACe5e29740404f11c253d59ba61a3fb1c7";
-//const authToken = "051c9726c93c4022d6610ac486d2e854";
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = twilio(accountSid, authToken);
 
 // WhatsApp Number (Twilio WhatsApp sandbox number or purchased number)
