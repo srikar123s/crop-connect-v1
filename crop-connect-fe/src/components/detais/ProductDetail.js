@@ -23,7 +23,7 @@ function ProductDetail() {
     const fetchSimilarProducts = async () => {
       if (product) {
         try {
-          const response = await axios.get("http://localhost:5000/api/products/");
+          const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/products/`);
           // Filter products based on category and exclude the current product
           const similar = response.data.filter(item =>
             item.category === product?.category && item._id !== product?._id

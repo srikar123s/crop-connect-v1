@@ -39,7 +39,7 @@ function Seeds() {
         useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/products/");
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/products/`);
                 const filteredSeeds = response.data.filter(product => product.category ===  'Seeds');
                 setSeeds(filteredSeeds);
             } catch (error) {

@@ -33,6 +33,7 @@ function Check() {
         town: ''
 
     });
+    const API = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
 
     const [suggestions, setSuggestions] = useState([]);
@@ -330,11 +331,11 @@ function Check() {
 
 
         // Make a POST request to save the order and send a WhatsApp message
-        axios.post("http://localhost:5000/api/orders/", order)
+        axios.post(`${API}/api/orders/`, order)
             .then(response => {
                 console.log('phone number:', userPhoneNumber);
                 // After saving the order, send WhatsApp message
-                return axios.post("http://localhost:5000/api/twilio/send-whatsapp", {
+                return axios.post(`${API}/api/twilio/send-whatsapp`, {
                     phoneNumber: userPhoneNumber,
                     orderId: newOrderNumber,
                     orderDate: new Date().toDateString(),
@@ -344,13 +345,13 @@ function Check() {
             })
             .then(response => {
 
-                toggleModal();
+                //toggleModal();
             })
             .catch(error => {
                 console.error('Error:', error);
 
             });
-            
+            toggleModal();
 
     };
 

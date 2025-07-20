@@ -56,7 +56,7 @@ function Login() {
         try {
             const response = await axios.post('http://localhost:5000/api/auth/login', loginData);
             localStorage.setItem('token', response.data.token);
-            localStorage.setItem('user',response.data.user);
+            localStorage.setItem('user', response.data.user);
             login();  // Set user as authenticated
             navigateTo('/');
         } catch (error) {
@@ -64,17 +64,21 @@ function Login() {
         }
     };
 
-    const handleGoogleLogin = async (gtoken) =>{
-        try{
-            const resp = await axios.post('http://localhost:5000/api/auth/google', {"token": gtoken?.credential});
+    const handleGoogleLogin = async (gtoken) => {
+        try {
+            const resp = await axios.post(
+                `${process.env.REACT_APP_API_BASE_URL}/api/auth/google`,
+                { token: gtoken?.credential }
+            );
+
             localStorage.setItem('token', resp.data.token);
-            localStorage.setItem('user',resp.data.user);
+            localStorage.setItem('user', resp.data.user);
             console.log(resp.data.token);
-            login();  
+            login();
             navigateTo('/');
         }
-        catch(error){
-            setErrorMessage(error.response?.data?.error  || 'Google login failed');
+        catch (error) {
+            setErrorMessage(error.response?.data?.error || 'Google login failed');
         }
     }
 
@@ -119,26 +123,26 @@ function Login() {
                                 <a href="#" className="social-icon" aria-label="Sign in with Facebook">
                                     <FontAwesomeIcon icon={faFacebookF} />
                                 </a>
-                              
+
                                 <a href="#" className="social-icon" aria-label="Sign in with LinkedIn">
                                     <FontAwesomeIcon icon={faLinkedinIn} />
                                 </a>
                             </div>
                             <GoogleOAuthProvider clientId="116503084132-c3o43ssvu22obvl6grptaoj004pfonkq.apps.googleusercontent.com">
-                                    <GoogleLogin
-                                     text="signup_with"
-                                        onSuccess={credentialResponse => {
-                                            console.log("here: ")
-                                            console.log(credentialResponse);
-                                            handleGoogleLogin();
-                                            navigateTo('/');
-                                        }}
-                                        onError={() => {
-                                            console.log('Login Failed');
-                                        }}
+                                <GoogleLogin
+                                    text="signup_with"
+                                    onSuccess={credentialResponse => {
+                                        console.log("here: ")
+                                        console.log(credentialResponse);
+                                        handleGoogleLogin();
+                                        navigateTo('/');
+                                    }}
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }}
 
-                                    />
-                                </GoogleOAuthProvider>
+                                />
+                            </GoogleOAuthProvider>
                             <br />
                             <span>or use your account</span>
                             <br />
@@ -159,25 +163,25 @@ function Login() {
                                 <a href="#" className="social-icon" aria-label="Sign in with Facebook">
                                     <FontAwesomeIcon icon={faFacebookF} />
                                 </a>
-                                
+
                                 <a href="#" className="social-icon" aria-label="Sign in with LinkedIn">
                                     <FontAwesomeIcon icon={faLinkedinIn} />
                                 </a>
                             </div>
                             <GoogleOAuthProvider clientId="116503084132-c3o43ssvu22obvl6grptaoj004pfonkq.apps.googleusercontent.com">
-                                    <GoogleLogin
-                                        onSuccess={credentialResponse => {
-                                            console.log("here: ")
-                                            console.log(credentialResponse);
-                                            handleGoogleLogin(credentialResponse);
-                                            navigateTo('/');
-                                        }}
-                                        onError={() => {
-                                            console.log('Login Failed');
-                                        }}
+                                <GoogleLogin
+                                    onSuccess={credentialResponse => {
+                                        console.log("here: ")
+                                        console.log(credentialResponse);
+                                        handleGoogleLogin(credentialResponse);
+                                        navigateTo('/');
+                                    }}
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }}
 
-                                    />
-                                </GoogleOAuthProvider>
+                                />
+                            </GoogleOAuthProvider>
                             <br />
                             <span>or use your account</span>
                             <br />
