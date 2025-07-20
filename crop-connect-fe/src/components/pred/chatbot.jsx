@@ -17,7 +17,7 @@ const Chatbot = () => {
         setMessages((prev) => [...prev, userMessage]);
 
         try {
-            const response = await axios.post("http://127.0.0.1:8000/ask", {
+           const response = await axios.post("https://crop-connect-v1-whl1.onrender.com/ask", {
                 text: input,
             });
 

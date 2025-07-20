@@ -7,13 +7,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_KEY = "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"
+api_key = os.getenv("GROQ_API_KEY")
 
 if not API_KEY:
     raise ValueError("Missing GROQ_API_KEY")
 
-client = Groq(api_key=API_KEY)
+client = Groq(api_key=api_key)
 app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Crop Connect Chatbot API is running!"}
 
 # Allow requests from frontend
 app.add_middleware(
