@@ -7,12 +7,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-api_key = os.getenv("GROQ_API_KEY")
+API_KEY = os.getenv("GROQ_API_KEY")
 
 if not API_KEY:
     raise ValueError("Missing GROQ_API_KEY")
 
-client = Groq(api_key=api_key)
+client = Groq(api_key=API_KEY)
 app = FastAPI()
 
 @app.get("/")
