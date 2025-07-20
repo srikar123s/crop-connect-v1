@@ -72,26 +72,30 @@ const Chatbot = () => {
                     borderTopLeftRadius: "20px",
                     borderTopRightRadius: "20px",
                     position: "relative",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                 }}
             >
-                🌿 Crop Connect Chatbot
                 <button
                     onClick={() => setVisible(false)}
                     style={{
                         position: "absolute",
+                        left: "15px",
                         top: "10px",
-                        right: "15px",
                         background: "transparent",
                         border: "none",
                         fontSize: "1.2rem",
                         color: "#fff",
                         cursor: "pointer",
                     }}
-                    aria-label="Close"
+                    aria-label="Back"
                 >
-                    ❌
+                    🔙
                 </button>
+                🌿 Crop Connect Chatbot
             </div>
+
 
             {/* Chat content */}
             <div
@@ -141,7 +145,7 @@ const Chatbot = () => {
                             }}
                         />
 
-                        
+
                     </div>
                 ))}
 
