@@ -121,6 +121,7 @@ const Home = () => {
                     <h1>Quality Seeds, Fertilizers, and Tools for Your Farming Needs</h1>
                     <h2>From Seed To Success, We Have Got You Covered</h2>
                     <a href="#best" className="btn btn-warning btn-lg">Shop Now</a>
+                
                 </div>
             </section>
 
